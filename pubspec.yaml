@@ -23,7 +23,7 @@ dependencies:
   isolate: ^2.0.2
 
   provider: 3.0.0
-  webview_flutter: ^0.3.17
+  webview_flutter: ^0.3.19+5
 
 dev_dependencies:
   flutter_test:
