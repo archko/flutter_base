@@ -8,11 +8,17 @@ class HttpLogInterceptor extends Interceptor {
         "#------------------ Request Start -----------------#");
     StringBuffer sb = StringBuffer();
     sb.write(
-        "onRequest:method:${options.method},contentType:${options.contentType},responseType:${options.responseType},");
-    sb.write("path:${options.path}");
+        "onRequest:method:${options.method},contentType:${options
+            .contentType},responseType:${options.responseType},");
+    sb.write("path:${options.path}, heaers:");
     if (options.headers != null && options.headers.length > 0) {
       options.headers
-          .forEach((key, value) => sb.write('header:key=$key, value=$value'));
+          .forEach((key, value) => sb.write('key=$key, value=$value'));
+    }
+    if (options.queryParameters != null && options.queryParameters.length > 0) {
+      sb.write(", queryParameters:");
+      options.queryParameters
+          .forEach((key, value) => sb.write('key=$key, value=$value'));
     }
     Logger.d(sb);
     return options;
