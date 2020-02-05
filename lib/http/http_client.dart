@@ -20,12 +20,16 @@ class HttpClient {
   HttpClient._init() {
     if (dio == null) {
       dio = new Dio();
-      dio.interceptors.add(HttpLogInterceptor());
+      //dio.interceptors.add(HttpLogInterceptor());
     }
   }
 
   addInterceptor(Interceptor interceptor) {
     dio.interceptors.add(interceptor);
+  }
+
+  clearInterceptor() {
+    dio.interceptors.clear();
   }
 
   static HttpClient _getInstance() {
@@ -53,7 +57,7 @@ class HttpClient {
     //Response response;
     //response = await dio.get("/test", options: option);
     //print(response.data.toString());
-    return request(url, options: option);
+    return request(url, options: option, queryParameters: params);
   }
 
   Future post(url, {params, header, option}) async {
@@ -69,7 +73,7 @@ class HttpClient {
     }
     option.headers = headers;
     option.method = POST;
-    return request(url, options: option);
+    return request(url, options: option, queryParameters: params);
   }
 
   Future postForm(url, {formData, params, header}) async {
@@ -83,12 +87,13 @@ class HttpClient {
     return dio.request(url, data: formData);
   }
 
-  Future<HttpResponse> request(url, {options, params}) async {
+  Future<HttpResponse> request(url, {options, queryParameters, data}) async {
     Response response;
 
     ///dio request
     try {
-      response = await dio.request(url, data: params, options: options);
+      response = await dio.request(
+          url, options: options, queryParameters: queryParameters, data: data);
     } on DioError catch (e) {
       Response errorResponse = e.response ?? Response();
       if (e.type == DioErrorType.CONNECT_TIMEOUT) {
@@ -105,7 +110,7 @@ class HttpClient {
             isSuccess: true);
       }
     } catch (e) {
-      Logger.d("params:$params, headers:${options.header}");
+      Logger.d("params:$queryParameters, headers:${options.header}");
       Logger.d("net error:${e.toString()}");
       return HttpResponse(e.toString(), e.toString(), response.statusCode,
           isSuccess: false);
