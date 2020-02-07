@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class Browser extends StatelessWidget {
   static open(BuildContext context, String url, String title) {
@@ -26,9 +26,21 @@ class Browser extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: WebView(
-        initialUrl: url,
-        javascriptMode: JavascriptMode.unrestricted,
+      //body: WebView(
+      //  initialUrl: url,
+      //  javascriptMode: JavascriptMode.unrestricted,
+      //),
+      body: WebviewScaffold(
+        url: url,
+        withZoom: true,
+        withLocalStorage: true,
+        hidden: true,
+        initialChild: Container(
+          color: Colors.greenAccent,
+          child: const Center(
+            child: Text('Waiting.....'),
+          ),
+        ),
       ),
     );
   }
