@@ -8,22 +8,22 @@ class HttpHeaderInterceptor extends Interceptor {
     'Connection': 'keep-alive',
     'Content-Type': 'application/json',
     'User-Agent':
-        'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1',
   };
 
   @override
-  onRequest(RequestOptions options) {
+  Future onRequest(RequestOptions options) async {
     options.headers.addAll(httpHeaders);
     return options;
   }
 
   @override
-  onResponse(Response response) {
+  Future onResponse(Response response) async {
     return response;
   }
 
   @override
-  onError(DioError err) {
+  Future onError(DioError err) async {
     return err;
   }
 }
