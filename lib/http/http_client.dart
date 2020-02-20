@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:dio/dio.dart';
 import 'package:flutter_base/log/logger.dart';
 
-import 'interceptor/http_log_interceptor.dart';
 import 'http_response.dart';
 
 class HttpClient {
@@ -39,41 +38,48 @@ class HttpClient {
     return _instance;
   }
 
-  Future get(url, {params, header, option}) async {
-    ///Headers
-    Map<String, String> headers = HashMap();
-    if (header != null) {
-      headers.addAll(header);
-    }
+  Future get(url, {params, header, Options option, responseType}) async {
+    Options options = option;
 
     ///Options
-    if (null == option) {
-      option = new Options();
-      option.responseType = ResponseType.plain;
+    if (null == options) {
+      options = new Options();
+      options.responseType =
+          responseType == null ? ResponseType.plain : responseType;
+      options.headers = header;
+    } else {
+      if (options.headers != null) {
+        options.headers.addAll(header);
+      } else {
+        options.headers = header;
+      }
     }
-    option.headers = headers;
-    option.method = GET;
+    options.method = GET;
 
     //Response response;
     //response = await dio.get("/test", options: option);
     //print(response.data.toString());
-    return request(url, options: option, queryParameters: params);
+    return request(url, options: options, queryParameters: params);
   }
 
-  Future post(url, {params, header, option}) async {
-    ///Headers
-    Map<String, String> headers = HashMap();
-    if (header != null) {
-      headers.addAll(header);
-    }
+  Future post(url, {params, header, option, data, responseType}) async {
+    Options options = option;
 
-    if (null == option) {
-      option = new Options();
-      option.responseType = ResponseType.plain;
+    ///Options
+    if (null == options) {
+      options = new Options();
+      options.responseType =
+          responseType == null ? ResponseType.plain : responseType;
+      options.headers = header;
+    } else {
+      if (options.headers != null) {
+        options.headers.addAll(header);
+      } else {
+        options.headers = header;
+      }
     }
-    option.headers = headers;
     option.method = POST;
-    return request(url, options: option, queryParameters: params);
+    return request(url, options: option, queryParameters: params, data: data);
   }
 
   Future postForm(url, {formData, params, header}) async {
@@ -92,8 +98,8 @@ class HttpClient {
 
     ///dio request
     try {
-      response = await dio.request(
-          url, options: options, queryParameters: queryParameters, data: data);
+      response = await dio.request(url,
+          options: options, queryParameters: queryParameters, data: data);
     } on DioError catch (e) {
       Response errorResponse = e.response ?? Response();
       if (e.type == DioErrorType.CONNECT_TIMEOUT) {
