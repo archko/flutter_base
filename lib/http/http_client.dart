@@ -69,7 +69,6 @@ class HttpClient {
       options = new Options();
       options.responseType =
       responseType == null ? ResponseType.plain : responseType;
-      options.headers = header;
     }
     if (header != null) {
       if (options.headers == null) {
