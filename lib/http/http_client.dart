@@ -45,14 +45,13 @@ class HttpClient {
     if (null == options) {
       options = new Options();
       options.responseType =
-          responseType == null ? ResponseType.plain : responseType;
-      options.headers = header;
-    } else {
-      if (options.headers != null) {
-        options.headers.addAll(header);
-      } else {
-        options.headers = header;
+      responseType == null ? ResponseType.plain : responseType;
+    }
+    if (header != null) {
+      if (options.headers == null) {
+        options.headers = new HashMap();
       }
+      options.headers.addAll(header);
     }
     options.method = GET;
 
@@ -69,14 +68,14 @@ class HttpClient {
     if (null == options) {
       options = new Options();
       options.responseType =
-          responseType == null ? ResponseType.plain : responseType;
+      responseType == null ? ResponseType.plain : responseType;
       options.headers = header;
-    } else {
-      if (options.headers != null) {
-        options.headers.addAll(header);
-      } else {
-        options.headers = header;
+    }
+    if (header != null) {
+      if (options.headers == null) {
+        options.headers = new HashMap();
       }
+      options.headers.addAll(header);
     }
     option.method = POST;
     return request(url, options: option, queryParameters: params, data: data);
@@ -101,12 +100,17 @@ class HttpClient {
       response = await dio.request(url,
           options: options, queryParameters: queryParameters, data: data);
     } on DioError catch (e) {
+      Logger.d("response error $e");
+      Logger.d(
+          "response error params:$queryParameters, headers:${options.header}");
       Response errorResponse = e.response ?? Response();
       if (e.type == DioErrorType.CONNECT_TIMEOUT) {
         errorResponse.statusCode = 503;
       }
       return HttpResponse(e.message, e.message, errorResponse.statusCode,
           isSuccess: false);
+    } catch (e) {
+      Logger.d("response error2 $e");
     }
 
     ///result
