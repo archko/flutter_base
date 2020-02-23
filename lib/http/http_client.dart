@@ -1,5 +1,7 @@
 import 'dart:collection';
+import 'dart:io';
 
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_base/log/logger.dart';
 
@@ -20,6 +22,22 @@ class HttpClient {
     if (dio == null) {
       dio = new Dio();
       //dio.interceptors.add(HttpLogInterceptor());
+
+      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+          (client) {
+        // config the http client
+        //client.findProxy = (uri) {
+        //  //proxy all request to localhost:8888
+        //  return "192.168.1.1:8888";
+        //};
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) {
+          Logger.d("host:$host port:$port");
+          return true;
+        };
+        // you can also create a new HttpClient to dio
+        // return new HttpClient();
+      };
     }
   }
 
@@ -45,7 +63,7 @@ class HttpClient {
     if (null == options) {
       options = new Options();
       options.responseType =
-      responseType == null ? ResponseType.plain : responseType;
+          responseType == null ? ResponseType.plain : responseType;
     }
     if (header != null) {
       if (options.headers == null) {
@@ -68,7 +86,7 @@ class HttpClient {
     if (null == options) {
       options = new Options();
       options.responseType =
-      responseType == null ? ResponseType.plain : responseType;
+          responseType == null ? ResponseType.plain : responseType;
     }
     if (header != null) {
       if (options.headers == null) {
@@ -101,7 +119,7 @@ class HttpClient {
     } on DioError catch (e) {
       Logger.d("response error $e");
       Logger.d(
-          "response error params:$queryParameters, headers:${options.header}");
+          "response error params:$queryParameters, headers:${options.headers}");
       Response errorResponse = e.response ?? Response();
       if (e.type == DioErrorType.CONNECT_TIMEOUT) {
         errorResponse.statusCode = 503;
@@ -119,7 +137,7 @@ class HttpClient {
             isSuccess: true);
       }
     } catch (e) {
-      Logger.d("params:$queryParameters, headers:${options.header}");
+      Logger.d("params:$queryParameters, headers:${options.headers}");
       Logger.d("net error:${e.toString()}");
       return HttpResponse(e.toString(), e.toString(), response.statusCode,
           isSuccess: false);

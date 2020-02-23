@@ -10,7 +10,7 @@ class HttpLogInterceptor extends Interceptor {
     sb.write(
         "onRequest:method:${options.method},contentType:${options
             .contentType},responseType:${options.responseType},");
-    sb.write("path:${options.path}, heaers:");
+    sb.write("path:${options.path}, headers:");
     if (options.headers != null && options.headers.length > 0) {
       options.headers
           .forEach((key, value) => sb.write('key=$key, value=$value'));
