@@ -31,37 +31,36 @@ class TabsWidget extends StatefulWidget {
 
   TabsWidget({
     Key key,
-    this.type,
+    this.type = TOP_TAB,
     this.tabController,
-    this.tabStyle,
     this.tabViews,
-    this.customIndicator,
     this.title,
     this.tabItems,
     this.tabWidgets,
-    this.isScrollable,
-    this.backgroundColor,
-    this.indicatorColor,
-    this.labelColor,
-    this.unselectedLabelColor,
+    this.tabStyle = TabsStyle.textOnly,
+    this.customIndicator = false,
+    this.isScrollable = false,
+    this.backgroundColor = Colors.black54,
+    this.indicatorColor = Colors.white,
+    this.labelColor = Colors.white,
+    this.unselectedLabelColor = Colors.black,
   }) : super(key: key);
 
   @override
-  TabsWidgetState createState() =>
-      TabsWidgetState(
-          type,
-          title,
-          tabViews,
-          customIndicator,
-          tabItems,
-          tabWidgets,
-          tabStyle,
-          tabController,
-          isScrollable,
-          backgroundColor,
-          indicatorColor,
-          labelColor,
-          unselectedLabelColor);
+  TabsWidgetState createState() => TabsWidgetState(
+      type,
+      title,
+      tabViews,
+      customIndicator,
+      tabItems,
+      tabWidgets,
+      tabStyle,
+      tabController,
+      isScrollable,
+      backgroundColor,
+      indicatorColor,
+      labelColor,
+      unselectedLabelColor);
 }
 
 class TabsWidgetState extends State<TabsWidget>
@@ -83,40 +82,24 @@ class TabsWidgetState extends State<TabsWidget>
   Color labelColor;
   Color unselectedLabelColor;
 
-  TabsWidgetState(this._type,
-      this._title,
-      this._tabViews,
-      this.customIndicator,
-      this.tabItems,
-      this.tabWidgets,
-      this.tabStyle,
-      this.tabController,
-      this.isScrollable,
-      this.backgroundColor,
-      this.indicatorColor,
-      this.labelColor,
-      this.unselectedLabelColor,) : super() {
+  TabsWidgetState(
+    this._type,
+    this._title,
+    this._tabViews,
+    this.customIndicator,
+    this.tabItems,
+    this.tabWidgets,
+    this.tabStyle,
+    this.tabController,
+    this.isScrollable,
+    this.backgroundColor,
+    this.indicatorColor,
+    this.labelColor,
+    this.unselectedLabelColor,
+  ) : super() {
     assert(tabItems != null || tabWidgets != null);
     assert(_tabViews != null);
 
-    if (null == customIndicator) {
-      customIndicator = false;
-    }
-    if (null == tabStyle) {
-      tabStyle = TabsStyle.textOnly;
-    }
-    if (null == backgroundColor) {
-      backgroundColor = Colors.black54;
-    }
-    if (null == indicatorColor) {
-      indicatorColor = Colors.white;
-    }
-    if (null == labelColor) {
-      labelColor = Colors.white;
-    }
-    if (null == unselectedLabelColor) {
-      unselectedLabelColor = Colors.black;
-    }
     if (null == tabController) {
       tabController = TabController(
           vsync: this,
@@ -150,12 +133,12 @@ class TabsWidgetState extends State<TabsWidget>
       case TabsStyle.iconsAndText:
         return ShapeDecoration(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(4.0)),
-            side: BorderSide(
-              color: indicatorColor,
-              width: 2.0,
-            ),
-          ) +
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                side: BorderSide(
+                  color: indicatorColor,
+                  width: 2.0,
+                ),
+              ) +
               const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 side: BorderSide(
@@ -168,11 +151,11 @@ class TabsWidgetState extends State<TabsWidget>
       case TabsStyle.iconsOnly:
         return ShapeDecoration(
           shape: CircleBorder(
-            side: BorderSide(
-              color: indicatorColor,
-              width: 4.0,
-            ),
-          ) +
+                side: BorderSide(
+                  color: indicatorColor,
+                  width: 4.0,
+                ),
+              ) +
               const CircleBorder(
                 side: BorderSide(
                   color: Colors.transparent,
@@ -184,11 +167,11 @@ class TabsWidgetState extends State<TabsWidget>
       case TabsStyle.textOnly:
         return ShapeDecoration(
           shape: StadiumBorder(
-            side: BorderSide(
-              color: indicatorColor,
-              width: 2.0,
-            ),
-          ) +
+                side: BorderSide(
+                  color: indicatorColor,
+                  width: 2.0,
+                ),
+              ) +
               const StadiumBorder(
                 side: BorderSide(
                   color: Colors.transparent,
@@ -205,17 +188,17 @@ class TabsWidgetState extends State<TabsWidget>
     List<Widget> tabs = tabWidgets != null
         ? tabWidgets
         : tabItems.map<Tab>((TabItem page) {
-      assert(tabStyle != null);
-      switch (tabStyle) {
-        case TabsStyle.iconsAndText:
-          return Tab(text: page.text, icon: Icon(page.icon));
-        case TabsStyle.iconsOnly:
-          return Tab(icon: Icon(page.icon));
-        case TabsStyle.textOnly:
-          return Tab(text: page.text);
-      }
-      return Tab(text: "Title");
-    }).toList();
+            assert(tabStyle != null);
+            switch (tabStyle) {
+              case TabsStyle.iconsAndText:
+                return Tab(text: page.text, icon: Icon(page.icon));
+              case TabsStyle.iconsOnly:
+                return Tab(icon: Icon(page.icon));
+              case TabsStyle.textOnly:
+                return Tab(text: page.text);
+            }
+            return Tab(text: "Title");
+          }).toList();
     TabBar tabBar = TabBar(
       controller: tabController,
       isScrollable: isScrollable,
