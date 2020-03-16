@@ -17,6 +17,7 @@ class TabsWidget extends StatefulWidget {
   final TabController tabController;
   final TabsStyle tabStyle;
 
+  final bool showAppBar;
   final bool customIndicator;
   final Widget title;
   final List<Widget> tabViews;
@@ -28,6 +29,7 @@ class TabsWidget extends StatefulWidget {
   final Color indicatorColor;
   final Color labelColor;
   final Color unselectedLabelColor;
+  final Decoration decoration;
 
   TabsWidget({
     Key key,
@@ -38,29 +40,34 @@ class TabsWidget extends StatefulWidget {
     this.tabItems,
     this.tabWidgets,
     this.tabStyle = TabsStyle.textOnly,
+    this.showAppBar = true,
     this.customIndicator = false,
     this.isScrollable = false,
     this.backgroundColor = Colors.black54,
     this.indicatorColor = Colors.white,
     this.labelColor = Colors.white,
     this.unselectedLabelColor = Colors.black,
+    this.decoration,
   }) : super(key: key);
 
   @override
   TabsWidgetState createState() => TabsWidgetState(
-      type,
-      title,
-      tabViews,
-      customIndicator,
-      tabItems,
-      tabWidgets,
-      tabStyle,
-      tabController,
-      isScrollable,
-      backgroundColor,
-      indicatorColor,
-      labelColor,
-      unselectedLabelColor);
+        type,
+        title,
+        tabViews,
+        showAppBar,
+        customIndicator,
+        tabItems,
+        tabWidgets,
+        tabStyle,
+        tabController,
+        isScrollable,
+        backgroundColor,
+        indicatorColor,
+        labelColor,
+        unselectedLabelColor,
+        decoration,
+      );
 }
 
 class TabsWidgetState extends State<TabsWidget>
@@ -69,6 +76,7 @@ class TabsWidgetState extends State<TabsWidget>
   TabController tabController;
   TabsStyle tabStyle;
 
+  bool showAppBar;
   bool customIndicator;
 
   final Widget _title;
@@ -81,11 +89,13 @@ class TabsWidgetState extends State<TabsWidget>
   Color indicatorColor;
   Color labelColor;
   Color unselectedLabelColor;
+  final Decoration decoration;
 
   TabsWidgetState(
     this._type,
     this._title,
     this._tabViews,
+    this.showAppBar,
     this.customIndicator,
     this.tabItems,
     this.tabWidgets,
@@ -96,6 +106,7 @@ class TabsWidgetState extends State<TabsWidget>
     this.indicatorColor,
     this.labelColor,
     this.unselectedLabelColor,
+    this.decoration,
   ) : super() {
     assert(tabItems != null || tabWidgets != null);
     assert(_tabViews != null);
@@ -129,58 +140,24 @@ class TabsWidgetState extends State<TabsWidget>
       return UnderlineTabIndicator(
           borderSide: BorderSide(width: 2.0, color: indicatorColor));
 
-    switch (tabStyle) {
-      case TabsStyle.iconsAndText:
-        return ShapeDecoration(
-          shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                side: BorderSide(
-                  color: indicatorColor,
-                  width: 2.0,
+    return decoration != null
+        ? decoration
+        : ShapeDecoration(
+            shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  side: BorderSide(
+                    color: indicatorColor,
+                    width: 2.0,
+                  ),
+                ) +
+                const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                  side: BorderSide(
+                    color: Colors.transparent,
+                    width: 4.0,
+                  ),
                 ),
-              ) +
-              const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                side: BorderSide(
-                  color: Colors.transparent,
-                  width: 4.0,
-                ),
-              ),
-        );
-
-      case TabsStyle.iconsOnly:
-        return ShapeDecoration(
-          shape: CircleBorder(
-                side: BorderSide(
-                  color: indicatorColor,
-                  width: 4.0,
-                ),
-              ) +
-              const CircleBorder(
-                side: BorderSide(
-                  color: Colors.transparent,
-                  width: 4.0,
-                ),
-              ),
-        );
-
-      case TabsStyle.textOnly:
-        return ShapeDecoration(
-          shape: StadiumBorder(
-                side: BorderSide(
-                  color: indicatorColor,
-                  width: 2.0,
-                ),
-              ) +
-              const StadiumBorder(
-                side: BorderSide(
-                  color: Colors.transparent,
-                  width: 4.0,
-                ),
-              ),
-        );
-    }
-    return null;
+          );
   }
 
   @override
@@ -209,37 +186,59 @@ class TabsWidgetState extends State<TabsWidget>
       //labelStyle: TextStyle(fontSize: 17),
       //unselectedLabelStyle: TextStyle(fontSize: 15),
     );
-    if (this._type == TabsWidget.TOP_TAB) {
-      return Scaffold(
-        appBar: AppBar(
-          title: _title,
-          bottom: tabBar,
-        ),
-        body: TabBarView(
-          controller: tabController,
-          children: _tabViews,
-        ),
-      );
+    if (showAppBar) {
+      if (this._type == TabsWidget.TOP_TAB) {
+        return Scaffold(
+          appBar: AppBar(
+            title: _title,
+            bottom: tabBar,
+          ),
+          body: TabBarView(
+            controller: tabController,
+            children: _tabViews,
+          ),
+        );
+      } else {
+        return Scaffold(
+          appBar: AppBar(
+            title: _title,
+          ),
+
+          ///页面主体，PageView，用于承载Tab对应的页面
+          body: TabBarView(
+            controller: tabController,
+            children: _tabViews,
+          ),
+
+          ///底部导航栏，也就是tab栏
+          bottomNavigationBar: Material(
+            color: backgroundColor,
+
+            ///tabBar控件
+            child: tabBar,
+          ),
+        );
+      }
     } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: _title,
-        ),
-
-        ///页面主体，PageView，用于承载Tab对应的页面
-        body: TabBarView(
-          controller: tabController,
-          children: _tabViews,
-        ),
-
-        ///底部导航栏，也就是tab栏
-        bottomNavigationBar: Material(
-          color: backgroundColor,
-
-          ///tabBar控件
-          child: tabBar,
-        ),
-      );
+      if (this._type == TabsWidget.TOP_TAB) {
+        return Scaffold(
+          body: TabBarView(
+            controller: tabController,
+            children: _tabViews,
+          ),
+        );
+      } else {
+        return Scaffold(
+          body: TabBarView(
+            controller: tabController,
+            children: _tabViews,
+          ),
+          bottomNavigationBar: Material(
+            color: backgroundColor,
+            child: tabBar,
+          ),
+        );
+      }
     }
   }
 }
