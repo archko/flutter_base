@@ -236,20 +236,26 @@ class _ProviderWidgetState4<
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider<A>(
-            create: (context) => model1,
-          ),
-          ChangeNotifierProvider<B>(
-            builder: (context) => model2,
-          ),
-          ChangeNotifierProvider<C>(
-            builder: (context) => model3,
-          )
-        ],
-        child: Consumer3<A, B, C>(
-          builder: widget.builder,
-          child: widget.child,
-        ));
+      providers: [
+        ChangeNotifierProvider<A>(
+          create: (context) => model1,
+        ),
+        ChangeNotifierProvider<B>(
+          create: (context) => model2,
+        ),
+        ChangeNotifierProvider<C>(
+          create: (context) => model3,
+        ),
+        ChangeNotifierProvider<D>(
+          create: (context) => model4,
+        )
+      ],
+      child: widget.builder == null
+          ? widget.child
+          : Consumer4<A, B, C, D>(
+              builder: widget.builder,
+              child: widget.child,
+            ),
+    );
   }
 }
