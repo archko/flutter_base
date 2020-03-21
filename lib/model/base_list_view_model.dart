@@ -60,5 +60,5 @@ abstract class BaseListViewModel<T> {
 
   Future loadData(int pn);
 
-  Future loadMore(int pn);
+  Future loadMore([int pn]);
 }
