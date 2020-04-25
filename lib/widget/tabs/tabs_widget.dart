@@ -221,10 +221,13 @@ class TabsWidgetState extends State<TabsWidget>
       return SafeArea(
         child: Container(
           margin: EdgeInsets.only(top: tabBar.preferredSize.height + 8),
-          color: Colors.red,
           child: Column(
             children: <Widget>[
-              tabBar,
+              Container(
+                width: double.maxFinite,
+                color: backgroundColor,
+                child: tabBar,
+              ),
               Expanded(child: tabBarView),
             ],
           ),

@@ -20,8 +20,10 @@ class HomeTabsPage extends StatefulWidget {
 class _HomeTabsPageState extends State<HomeTabsPage> {
   List<Widget> defaultTabViews = [
     MovieListPage(),
+    MovieListPage(),
   ];
   List<TabItem> defaultTabItems = <TabItem>[
+    TabItem(text: 'Movie'),
     TabItem(text: 'Movie'),
   ];
   ShapeDecoration _decoration = ShapeDecoration(
@@ -154,20 +156,17 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
     return buildDefaultTabs();
   }
 
-  MaterialApp buildDefaultTabs() {
-    return MaterialApp(
-      home: TabsWidget(
-        tabsViewStyle: TabsViewStyle.noAppbarTopTab,
-        tabStyle: TabsStyle.textOnly,
-        tabViews: defaultTabViews,
-        tabItems: defaultTabItems,
-        isScrollable: true,
-        customIndicator: true,
-        decoration: _decoration,
-        showAppBar: true,
-        backgroundColor: Theme.of(context).accentColor,
-        title: Text("干货"),
-      ),
+  Widget buildDefaultTabs() {
+    return TabsWidget(
+      tabsViewStyle: TabsViewStyle.noAppbarTopTab,
+      tabStyle: TabsStyle.textOnly,
+      tabViews: defaultTabViews,
+      tabItems: defaultTabItems,
+      isScrollable: true,
+      customIndicator: true,
+      decoration: _decoration,
+      backgroundColor: Theme.of(context).accentColor,
+      title: Text("干货"),
     );
   }
 }
