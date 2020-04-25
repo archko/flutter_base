@@ -157,7 +157,7 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   MaterialApp buildDefaultTabs() {
     return MaterialApp(
       home: TabsWidget(
-        type: TabsWidget.TOP_TAB,
+        tabsViewStyle: TabsViewStyle.noAppbarTopTab,
         tabStyle: TabsStyle.textOnly,
         tabViews: defaultTabViews,
         tabItems: defaultTabItems,
