@@ -218,7 +218,18 @@ class TabsWidgetState extends State<TabsWidget>
         ),
       );
     } else if (this._tabsViewStyle == TabsViewStyle.noAppbarTopTab) {
-      return tabBarView;
+      return SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(top: tabBar.preferredSize.height + 8),
+          color: Colors.red,
+          child: Column(
+            children: <Widget>[
+              tabBar,
+              Expanded(child: tabBarView),
+            ],
+          ),
+        ),
+      );
     } else if (this._tabsViewStyle == TabsViewStyle.noAppbarBottomTab) {
       return Scaffold(
         body: tabBarView,
