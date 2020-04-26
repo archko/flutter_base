@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base/http/http_client.dart';
 import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
+import 'package:flutter_base/utils/isolate_utils.dart';
 import 'package:flutter_base/utils/json_utils.dart';
 import 'package:flutter_base_example/entity/animate.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -65,7 +66,10 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
       String result =
           httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
-      list = await compute(decodeMovieListResult, result);
+      //list = await compute(decodeMovieListResult, result);
+      final lb = await loadBalancer;
+      list = await lb.run<List<Animate>, String>(
+          decodeMovieListResult, httpResponse.data as String);
     } catch (e) {
       print(e);
     }
