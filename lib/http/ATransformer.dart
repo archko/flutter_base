@@ -13,7 +13,6 @@ _parseAndDecode(String response) {
 }
 
 _parseJson(String text) async {
-  final lb = await loadBalancer;
-  return await lb.run<dynamic, String>(_parseAndDecode, text);
+  return await loadWithBalancer<dynamic, String>(_parseAndDecode, text);
   //return compute(_parseAndDecode, text);
 }

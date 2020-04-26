@@ -67,8 +67,7 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
           httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
       //list = await compute(decodeMovieListResult, result);
-      final lb = await loadBalancer;
-      list = await lb.run<List<Animate>, String>(
+      list = await loadWithBalancer<List<Animate>, String>(
           decodeMovieListResult, httpResponse.data as String);
     } catch (e) {
       print(e);
