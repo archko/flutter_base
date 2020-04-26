@@ -16,7 +16,8 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     //refresh();
   }
 
-  Future refresh() async {
+  @override
+  Future loadData({int pn}) async {
     List<Animate> list = await loadMovie(pn: 0);
     setData(list);
     if (list == null || list.length == 0) {
@@ -35,7 +36,7 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future loadMore(int pn) async {
+  Future loadMore({int pn}) async {
     List<Animate> list = await loadMovie(pn: page + 1);
     if (list != null && list.length > 0) {
       addData(list);
@@ -52,11 +53,6 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     }
 
     notifyListeners();
-  }
-
-  @override
-  Future loadData(int pn) {
-    return null;
   }
 
   Future<List<Animate>> loadMovie({int pn}) async {

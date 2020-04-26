@@ -16,7 +16,7 @@ mixin BaseListState<T extends StatefulWidget> on State<T> {
 
   Future refresh() async {
     viewModel.setPage(startPage);
-    await viewModel.loadData(viewModel.page).then((list) {
+    await viewModel.loadData(pn: viewModel.page).then((list) {
       viewModel.setData(list);
       setState(() {
         Logger.d("refresh end.${viewModel.page}, ${viewModel.getCount()}");
@@ -37,7 +37,7 @@ mixin BaseListState<T extends StatefulWidget> on State<T> {
       return refresh();
     }
 
-    await viewModel.loadMore(viewModel.page + 1).then((list) {
+    await viewModel.loadMore(pn: viewModel.page + 1).then((list) {
       viewModel.updateDataAndPage(list, viewModel.page + 1);
       setState(() {
         if (list.length < 1) {
