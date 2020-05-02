@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 
 enum TabsStyle { iconsAndText, iconsOnly, textOnly }
 
+enum TabsViewStyle {
+  appbarTopTab,
+  appbarBottomTab,
+  noAppbarTopTab,
+  noAppbarBottomTab
+}
+
 class TabItem {
   const TabItem({this.icon, this.text});
 
@@ -10,10 +17,7 @@ class TabItem {
 }
 
 class TabsWidget extends StatefulWidget {
-  static const int BOTTOM_TAB = 1;
-  static const int TOP_TAB = 2;
-
-  final int type;
+  final TabsViewStyle tabsViewStyle;
   final TabController tabController;
   final TabsStyle tabStyle;
 
@@ -33,7 +37,7 @@ class TabsWidget extends StatefulWidget {
 
   TabsWidget({
     Key key,
-    this.type = TOP_TAB,
+    this.tabsViewStyle = TabsViewStyle.appbarTopTab,
     this.tabController,
     this.tabViews,
     this.title,
@@ -52,10 +56,9 @@ class TabsWidget extends StatefulWidget {
 
   @override
   TabsWidgetState createState() => TabsWidgetState(
-        type,
+        tabsViewStyle,
         title,
         tabViews,
-        showAppBar,
         customIndicator,
         tabItems,
         tabWidgets,
@@ -72,11 +75,10 @@ class TabsWidget extends StatefulWidget {
 
 class TabsWidgetState extends State<TabsWidget>
     with SingleTickerProviderStateMixin {
-  final int _type;
+  final TabsViewStyle _tabsViewStyle;
   TabController tabController;
   TabsStyle tabStyle;
 
-  bool showAppBar;
   bool customIndicator;
 
   final Widget _title;
@@ -92,10 +94,9 @@ class TabsWidgetState extends State<TabsWidget>
   final Decoration decoration;
 
   TabsWidgetState(
-    this._type,
+    this._tabsViewStyle,
     this._title,
     this._tabViews,
-    this.showAppBar,
     this.customIndicator,
     this.tabItems,
     this.tabWidgets,
@@ -186,59 +187,60 @@ class TabsWidgetState extends State<TabsWidget>
       //labelStyle: TextStyle(fontSize: 17),
       //unselectedLabelStyle: TextStyle(fontSize: 15),
     );
-    if (showAppBar) {
-      if (this._type == TabsWidget.TOP_TAB) {
-        return Scaffold(
-          appBar: AppBar(
-            title: _title,
-            bottom: tabBar,
-          ),
-          body: TabBarView(
-            controller: tabController,
-            children: _tabViews,
-          ),
-        );
-      } else {
-        return Scaffold(
-          appBar: AppBar(
-            title: _title,
-          ),
+    TabBarView tabBarView = TabBarView(
+      controller: tabController,
+      children: _tabViews,
+    );
 
-          ///页面主体，PageView，用于承载Tab对应的页面
-          body: TabBarView(
-            controller: tabController,
-            children: _tabViews,
-          ),
+    if (this._tabsViewStyle == TabsViewStyle.appbarTopTab) {
+      return Scaffold(
+        appBar: AppBar(
+          title: _title,
+          bottom: tabBar,
+        ),
+        body: tabBarView,
+      );
+    } else if (this._tabsViewStyle == TabsViewStyle.appbarBottomTab) {
+      return Scaffold(
+        appBar: AppBar(
+          title: _title,
+        ),
 
-          ///底部导航栏，也就是tab栏
-          bottomNavigationBar: Material(
-            color: backgroundColor,
+        ///页面主体，PageView，用于承载Tab对应的页面
+        body: tabBarView,
 
-            ///tabBar控件
-            child: tabBar,
+        ///底部导航栏，也就是tab栏
+        bottomNavigationBar: Material(
+          color: backgroundColor,
+
+          ///tabBar控件
+          child: tabBar,
+        ),
+      );
+    } else if (this._tabsViewStyle == TabsViewStyle.noAppbarTopTab) {
+      return SafeArea(
+        child: Container(
+          margin: EdgeInsets.only(top: tabBar.preferredSize.height + 8),
+          child: Column(
+            children: <Widget>[
+              Container(
+                width: double.maxFinite,
+                color: backgroundColor,
+                child: tabBar,
+              ),
+              Expanded(child: tabBarView),
+            ],
           ),
-        );
-      }
-    } else {
-      if (this._type == TabsWidget.TOP_TAB) {
-        return Scaffold(
-          body: TabBarView(
-            controller: tabController,
-            children: _tabViews,
-          ),
-        );
-      } else {
-        return Scaffold(
-          body: TabBarView(
-            controller: tabController,
-            children: _tabViews,
-          ),
-          bottomNavigationBar: Material(
-            color: backgroundColor,
-            child: tabBar,
-          ),
-        );
-      }
+        ),
+      );
+    } else if (this._tabsViewStyle == TabsViewStyle.noAppbarBottomTab) {
+      return Scaffold(
+        body: tabBarView,
+        bottomNavigationBar: Material(
+          color: backgroundColor,
+          child: tabBar,
+        ),
+      );
     }
   }
 }

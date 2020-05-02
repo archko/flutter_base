@@ -3,8 +3,9 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_base/flutter_base.dart';
+import 'package:flutter_base_example/app.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(createApp());
 
 class MyApp extends StatefulWidget {
   @override
