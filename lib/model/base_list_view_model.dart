@@ -58,7 +58,7 @@ abstract class BaseListViewModel<T> {
         "data:${data.toString()}";
   }
 
-  Future loadData(int pn);
+  Future loadData({int pn});
 
-  Future loadMore([int pn]);
+  Future loadMore({int pn});
 }
