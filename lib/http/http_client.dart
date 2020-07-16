@@ -96,8 +96,8 @@ class HttpClient {
       }
       options.headers.addAll(header);
     }
-    option.method = POST;
-    return request(url, options: option, queryParameters: params, data: data);
+    options.method = POST;
+    return request(url, options: options, queryParameters: params, data: data);
   }
 
   Future postForm(url, {formData, params, header}) async {
