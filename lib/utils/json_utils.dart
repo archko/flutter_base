@@ -9,7 +9,7 @@ class JsonUtils {
     return json.decode(data);
   }
 
-  static String toJson(String data) {
+  static String toJson(dynamic data) {
     return json.encode(data);
   }
 }
