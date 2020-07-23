@@ -48,7 +48,7 @@ abstract class BaseListViewModel<T> {
 
   @override
   String toString() {
-    return 'BaseListViewModel{hasMore: $hasMore, _loadingStatus: $_loadingStatus, page: $page, data: $data}';
+    return 'BaseListViewModel{hasMore: $hasMore, _loadingStatus: $loadingStatus, page: $page, data: $data}';
   }
 }
 
