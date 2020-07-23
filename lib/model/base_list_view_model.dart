@@ -1,6 +1,6 @@
 abstract class BaseListViewModel<T> {
   bool hasMore = true;
-  bool isRefreshing = false;
+  LoadingStatus _loadingStatus = LoadingStatus.idle;
   int page = 0;
   List<T> data = new List<T>();
 
@@ -12,12 +12,10 @@ abstract class BaseListViewModel<T> {
     this.hasMore = hasMore;
   }
 
-  bool get isRefresh {
-    return isRefreshing;
-  }
+  LoadingStatus get loadingStatus => _loadingStatus;
 
-  void setRefresh(bool refreshing) {
-    isRefreshing = refreshing;
+  set loadingStatus(LoadingStatus value) {
+    _loadingStatus = value;
   }
 
   void setPage(int page) {
@@ -50,15 +48,26 @@ abstract class BaseListViewModel<T> {
     return data == null ? 0 : data.length;
   }
 
-  @override
-  String toString() {
-    return "hasMore:$hasMore,"
-        "isRefreshing:$isRefreshing,"
-        "page:$page,"
-        "data:${data.toString()}";
-  }
-
   Future loadData({int pn});
 
   Future loadMore({int pn});
+
+  @override
+  String toString() {
+    return 'BaseListViewModel{hasMore: $hasMore, _loadingStatus: $_loadingStatus, page: $page, data: $data}';
+  }
+}
+
+enum LoadingStatus {
+  /// Initial state
+  idle,
+
+  /// the indicator is loading,waiting for the finish callback
+  loading,
+
+  /// the indicator refresh completed
+  successed,
+
+  /// the indicator refresh failed
+  failed,
 }
