@@ -58,6 +58,8 @@ enum LoadingStatus {
 
   /// the indicator is loading,waiting for the finish callback
   loading,
+  
+  loadingMore,
 
   /// the indicator refresh completed
   successed,
