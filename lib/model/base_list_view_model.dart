@@ -1,6 +1,6 @@
 abstract class BaseListViewModel<T> {
   bool hasMore = true;
-  LoadingStatus _loadingStatus = LoadingStatus.idle;
+  LoadingStatus loadingStatus = LoadingStatus.idle;
   int page = 0;
   List<T> data = new List<T>();
 
@@ -10,12 +10,6 @@ abstract class BaseListViewModel<T> {
 
   void setHasMore(bool hasMore) {
     this.hasMore = hasMore;
-  }
-
-  LoadingStatus get loadingStatus => _loadingStatus;
-
-  set loadingStatus(LoadingStatus value) {
-    _loadingStatus = value;
   }
 
   void setPage(int page) {
