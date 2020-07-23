@@ -56,7 +56,7 @@ abstract class BaseListViewModel<T> {
 
 Widget getLoadingStatusWidget(
     LoadingStatus loadingStatus, bool hasData, Widget widget) {
-  String text = "无数据";
+  String text = "加载中";
   if (loadingStatus == LoadingStatus.successed) {
     if (hasData) {
       return widget;
@@ -66,6 +66,8 @@ Widget getLoadingStatusWidget(
     text = "加载中";
   } else if (loadingStatus == LoadingStatus.failed) {
     text = "加载失败";
+  } else {
+    text = "无数据";
   }
   return Center(
     child: Text(text),
