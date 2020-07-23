@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 abstract class BaseListViewModel<T> {
   bool hasMore = true;
   LoadingStatus loadingStatus = LoadingStatus.idle;
@@ -52,13 +54,37 @@ abstract class BaseListViewModel<T> {
   }
 }
 
+Widget getLoadingStatusWidget(
+    LoadingStatus loadingStatus, bool hasData, Widget widget) {
+  if (loadingStatus != LoadingStatus.successed &&
+      loadingStatus != LoadingStatus.loadingMore) {
+    String text = "无数据";
+    if (loadingStatus == LoadingStatus.failed) {
+      text = "加载失败";
+    } else if (loadingStatus == LoadingStatus.loading) {
+      text = "加载中";
+    }
+    return Center(
+      child: Text(text),
+    );
+  } else {
+    if (loadingStatus == LoadingStatus.successed) {
+      if (!hasData) {
+        return Center(
+          child: Text("无数据"),
+        );
+      }
+    }
+  }
+  return widget;
+}
+
 enum LoadingStatus {
   /// Initial state
   idle,
 
   /// the indicator is loading,waiting for the finish callback
   loading,
-  
   loadingMore,
 
   /// the indicator refresh completed
