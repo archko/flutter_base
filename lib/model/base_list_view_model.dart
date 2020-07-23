@@ -56,27 +56,20 @@ abstract class BaseListViewModel<T> {
 
 Widget getLoadingStatusWidget(
     LoadingStatus loadingStatus, bool hasData, Widget widget) {
-  if (loadingStatus != LoadingStatus.successed &&
-      loadingStatus != LoadingStatus.loadingMore) {
-    String text = "无数据";
-    if (loadingStatus == LoadingStatus.failed) {
-      text = "加载失败";
-    } else if (loadingStatus == LoadingStatus.loading) {
-      text = "加载中";
+  String text = "无数据";
+  if (loadingStatus == LoadingStatus.successed) {
+    if (hasData) {
+      return widget;
     }
-    return Center(
-      child: Text(text),
-    );
-  } else {
-    if (loadingStatus == LoadingStatus.successed) {
-      if (!hasData) {
-        return Center(
-          child: Text("无数据"),
-        );
-      }
-    }
+  } else if (loadingStatus == LoadingStatus.loadingMore ||
+      loadingStatus == LoadingStatus.loading) {
+    text = "加载中";
+  } else if (loadingStatus == LoadingStatus.failed) {
+    text = "加载失败";
   }
-  return widget;
+  return Center(
+    child: Text(text),
+  );
 }
 
 enum LoadingStatus {
