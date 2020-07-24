@@ -60,6 +60,8 @@ Widget getLoadingStatusWidget(
   if (loadingStatus == LoadingStatus.successed) {
     if (hasData) {
       return widget;
+    } else {
+      text = "无数据";
     }
   } else if (loadingStatus == LoadingStatus.loadingMore ||
       loadingStatus == LoadingStatus.loading) {
