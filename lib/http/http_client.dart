@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:dio/adapter.dart';
@@ -39,7 +38,7 @@ class HttpClient {
         // you can also create a new HttpClient to dio
         // return new HttpClient();
       };
-      dio.transformer=ATransformer();
+      dio.transformer = ATransformer();
     }
   }
 
@@ -58,8 +57,9 @@ class HttpClient {
     return _instance;
   }
 
-  Future get(url, {params, header, Options option, responseType}) async {
-    Options options = option;
+  Options processHeaderAndOption(
+      Options oldOptions, Map header, ResponseType responseType) {
+    Options options = oldOptions;
 
     ///Options
     if (null == options) {
@@ -69,46 +69,32 @@ class HttpClient {
     }
     if (header != null) {
       if (options.headers == null) {
-        options.headers = new HashMap();
+        options.headers = new Map();
       }
       options.headers.addAll(header);
     }
+    return options;
+  }
+
+  Future get(url, {params, header, Options option, responseType}) async {
+    Options options = processHeaderAndOption(option, header, responseType);
     options.method = GET;
 
-    //Response response;
-    //response = await dio.get("/test", options: option);
-    //print(response.data.toString());
     return request(url, options: options, queryParameters: params);
   }
 
   Future post(url, {params, header, option, data, responseType}) async {
-    Options options = option;
-
-    ///Options
-    if (null == options) {
-      options = new Options();
-      options.responseType =
-          responseType == null ? ResponseType.plain : responseType;
-    }
-    if (header != null) {
-      if (options.headers == null) {
-        options.headers = new HashMap();
-      }
-      options.headers.addAll(header);
-    }
+    Options options = processHeaderAndOption(option, header, responseType);
     options.method = POST;
     return request(url, options: options, queryParameters: params, data: data);
   }
 
-  Future postForm(url, {formData, params, header}) async {
-    //FormData formData = new FormData.from({
-    //  "name": "wendux",
-    //  "age": 25,
-    //  //"file1": new UploadFileInfo(new File("./upload.txt"), "upload1.txt")
-    //  //"file2": new UploadFileInfo(new File("./upload.txt"), "upload2.txt")
-    //});
+  Future postMultipartForm(url,
+      {data, params, header, option, responseType}) async {
+    Options options = processHeaderAndOption(option, header, responseType);
+    options.contentType = "multipart/form-data";
 
-    return dio.request(url, data: formData);
+    return dio.post(url, data: data, options: options);
   }
 
   Future<HttpResponse> request(url, {options, queryParameters, data}) async {
