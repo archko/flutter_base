@@ -54,22 +54,40 @@ abstract class BaseListViewModel<T> {
   }
 }
 
-Widget getLoadingStatusWidget(
-    LoadingStatus loadingStatus, bool hasData, Widget widget) {
+Widget getLoadingStatusWidget({
+  LoadingStatus loadingStatus,
+  bool hasData,
+  Widget loadingWidget,
+  Widget loadErrorWidget,
+  Widget loadNoDataWidget,
+  Widget widget,
+}) {
   String text = "加载中";
   if (loadingStatus == LoadingStatus.successed) {
     if (hasData) {
       return widget;
     } else {
       text = "无数据";
+      if (loadNoDataWidget != null) {
+        return loadNoDataWidget;
+      }
     }
-  } else if (loadingStatus == LoadingStatus.loadingMore ||
-      loadingStatus == LoadingStatus.loading) {
+  } else if (loadingStatus == LoadingStatus.loading ||
+      loadingStatus == LoadingStatus.loadingMore) {
     text = "加载中";
+    if (loadingWidget != null) {
+      return loadingWidget;
+    }
   } else if (loadingStatus == LoadingStatus.failed) {
     text = "加载失败";
+    if (loadErrorWidget != null) {
+      return loadErrorWidget;
+    }
   } else {
     text = "无数据";
+    if (loadNoDataWidget != null) {
+      return loadNoDataWidget;
+    }
   }
   return Center(
     child: Text(text),

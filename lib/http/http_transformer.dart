@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_base/utils/isolate_utils.dart';
 
-class ATransformer extends DefaultTransformer {
-  ATransformer() : super(jsonDecodeCallback: _parseJson);
+class HttpTransformer extends DefaultTransformer {
+  HttpTransformer() : super(jsonDecodeCallback: _parseJson);
 }
 
 // Must be top-level function

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_base/http/ATransformer.dart';
+import 'package:flutter_base/http/http_transformer.dart';
 import 'package:flutter_base/log/logger.dart';
 
 import 'http_response.dart';
@@ -38,7 +38,7 @@ class HttpClient {
         // you can also create a new HttpClient to dio
         // return new HttpClient();
       };
-      dio.transformer = ATransformer();
+      dio.transformer = HttpTransformer();
     }
   }
 
