@@ -16,9 +16,8 @@ class DialogItem extends StatelessWidget {
       onPressed: () {
         if (onPressed != null) {
           onPressed.call();
-        } else {
-          Navigator.pop(context);
         }
+        Navigator.pop(context);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
