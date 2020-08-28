@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base_example/page/home_tabs_page.dart';
+import 'package:flutter_base_example/page/test.dart';
 
 Widget createApp() {
   return StateDemoApp();
@@ -28,7 +29,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
         primarySwatch: Colors.green,
       ),
       home: Scaffold(
-        body: HomeTabsPage(),
+        body: TestApp(),
       ),
     );
   }
