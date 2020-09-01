@@ -17,15 +17,14 @@ class HomeTabsPage extends StatefulWidget {
   }
 }
 
-class _HomeTabsPageState extends State<HomeTabsPage> {
+class _HomeTabsPageState extends State<HomeTabsPage>
+    with SingleTickerProviderStateMixin {
   List<Widget> defaultTabViews = [
     MovieListPage(),
     MovieListPage(),
   ];
-  List<TabItem> defaultTabItems = <TabItem>[
-    TabItem(text: 'Movie'),
-    TabItem(text: 'Movie'),
-  ];
+  List<TabItem> _tabItems = [];
+  TabController _tabController;
   ShapeDecoration _decoration = ShapeDecoration(
     shape: StadiumBorder(
           side: BorderSide(
@@ -44,6 +43,17 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   @override
   void initState() {
     super.initState();
+    for (var widget in defaultTabViews) {
+      _tabItems.add(TabItem(text: widget.toStringShort()));
+    }
+    _tabController = TabController(vsync: this, length: _tabItems.length);
+    this._tabController.addListener(() {
+      /// 这里需要去重,否则会调用两次._tabController.animation.value才是最后的位置
+      if (_tabController.animation.value == _tabController.index) {
+        print(
+            "index:${_tabController.index},preIndex:${_tabController.previousIndex},length:${_tabController.length}");
+      }
+    });
   }
 
   @override
@@ -159,9 +169,10 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   Widget buildDefaultTabs() {
     return TabsWidget(
       tabsViewStyle: TabsViewStyle.noAppbarTopTab,
+      tabController: _tabController,
       tabStyle: TabsStyle.textOnly,
       tabViews: defaultTabViews,
-      tabItems: defaultTabItems,
+      tabItems: _tabItems,
       isScrollable: true,
       customIndicator: true,
       decoration: _decoration,

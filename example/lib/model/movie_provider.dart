@@ -68,7 +68,7 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
       //print("result:$result");
       //list = await compute(decodeMovieListResult, result);
       list = await loadWithBalancer<List<Animate>, String>(
-          decodeMovieListResult, httpResponse.data as String);
+          decodeMovieListResult, result);
     } catch (e) {
       print(e);
     }
