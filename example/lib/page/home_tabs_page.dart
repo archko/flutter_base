@@ -48,7 +48,9 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return buildContent(context);
+    return Scaffold(
+      body: buildContent(context),
+    );
   }
 
   Widget buildContent(BuildContext context) {
@@ -85,12 +87,11 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverOverlapAbsorber(
-            handle:
-            NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
 
             ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
             ///所以我就用了SliverPersistentHeader来实现这个效果，SliverAppBar的bottom中只放TabBar顶部的布局
-            child: _bar(context),
+            sliver: _bar(context),
           ),
 
           ///停留在顶部的TabBar
@@ -152,7 +153,6 @@ class _HomeTabsPageState extends State<HomeTabsPage> {
   }
 
   Widget _buildBody(BuildContext context) {
-
     return buildDefaultTabs();
   }
 

@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_base/widget/appbar/title_bar.dart';
 import 'package:flutter_base_example/page/home_tabs_page.dart';
 import 'package:flutter_base_example/page/test.dart';
 
 Widget createApp() {
   return StateDemoApp();
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Flutter Demo',
+      home: StateDemoApp(),
+    );
+  }
 }
 
 class StateDemoApp extends StatefulWidget {
@@ -29,7 +41,39 @@ class _StateDemoAppState extends State<StateDemoApp> {
         primarySwatch: Colors.green,
       ),
       home: Scaffold(
-        body: TestApp(),
+        appBar: TitleBar.simpleTitleBar("test"),
+        body: Container(
+          margin: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) {
+                        return HomeTabsPage();
+                      },
+                    ),
+                  );
+                },
+                child: Text("HomeTabsPage"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) {
+                        return TestApp();
+                      },
+                    ),
+                  );
+                },
+                child: Text("TestApp"),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
