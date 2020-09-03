@@ -28,6 +28,8 @@ class CustomBanner extends StatefulWidget {
   final Curve curve;
   final Widget indicator;
   final IndexedWidgetBuilder itemBuilder;
+  final int switchDuration;
+  final int animationDuration;
 
   CustomBanner({
     Key key,
@@ -37,6 +39,8 @@ class CustomBanner extends StatefulWidget {
     this.curve = Curves.linearToEaseOut,
     this.indicator,
     this.itemBuilder,
+    this.switchDuration = 3000,
+    this.animationDuration = 1000,
   }) : super(key: key) {
     assert(banners != null);
   }
@@ -55,6 +59,19 @@ class _CustomBannerState extends State<CustomBanner> {
     super.initState();
     _pageController = PageController(initialPage: _index);
     initTimer();
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("deactivate");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cancelTimer();
+    print("dispose");
   }
 
   @override
@@ -161,12 +178,13 @@ class _CustomBannerState extends State<CustomBanner> {
 
   initTimer() {
     if (_timer == null) {
-      _timer = Timer.periodic(Duration(seconds: 3), (t) {
+      _timer =
+          Timer.periodic(Duration(milliseconds: widget.switchDuration), (t) {
         _index++;
         if (_pageController.hasClients) {
           _pageController.animateToPage(
             _index,
-            duration: Duration(milliseconds: 800),
+            duration: Duration(milliseconds: widget.animationDuration),
             curve: widget.curve,
           );
         }
@@ -175,7 +193,7 @@ class _CustomBannerState extends State<CustomBanner> {
   }
 
   _switchPage() {
-    Timer(Duration(milliseconds: 800), () {
+    Timer(Duration(milliseconds: widget.animationDuration), () {
       _pageController.jumpToPage(_index);
     });
   }
