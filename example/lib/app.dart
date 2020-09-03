@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_base/widget/appbar/title_bar.dart';
 import 'package:flutter_base_example/page/home_tabs_page.dart';
+import 'package:flutter_base_example/page/movie_list_page.dart';
 import 'package:flutter_base_example/page/test.dart';
 
 Widget createApp() {
@@ -70,6 +71,25 @@ class _StateDemoAppState extends State<StateDemoApp> {
                   );
                 },
                 child: Text("TestApp"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) {
+                        return MaterialApp(
+                            theme: ThemeData(
+                              primarySwatch: Colors.green,
+                            ),
+                            home: Scaffold(
+                              appBar: TitleBar.simpleTitleBar("Movie list"),
+                              body: MovieListPage(),
+                            ));
+                      },
+                    ),
+                  );
+                },
+                child: Text("TestList"),
               ),
             ],
           ),

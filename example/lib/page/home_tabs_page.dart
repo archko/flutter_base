@@ -102,7 +102,6 @@ class _HomeTabsPageState extends State<HomeTabsPage>
     return ProviderWidget<MovieProvider>(
       model: _movieProvider,
       onModelInitial: (m) {
-        m.loadData();
         m.loadBanner();
       },
       child: NestedScrollView(
@@ -134,12 +133,24 @@ class _HomeTabsPageState extends State<HomeTabsPage>
             //),
           ];
         },
+        //body: Selector<MovieProvider, List<Animate>>(
+        //  builder: (_, List<Animate> data, child) {
+        //    return _buildBody(context);
+        //  },
+        //  selector: (_, MovieProvider homeProvider) {
+        //    return homeProvider.getData();
+        //  },
+        //  shouldRebuild: (List<Animate> prev, List<Animate> now) {
+        //    return prev == null || prev != now;
+        //  },
+        //)),
         body: _buildBody(context),
       ),
     );
   }
 
   Widget _bar(BuildContext context) {
+    print("_bar");
     Widget widget;
     if (_movieProvider.getBannerBeans() == null) {
       widget = Center(
@@ -187,6 +198,7 @@ class _HomeTabsPageState extends State<HomeTabsPage>
   }
 
   Widget _buildBody(BuildContext context) {
+    print("_buildBody");
     Widget content;
     if (_movieProvider.loadingStatus == LoadingStatus.loading) {
       content = Center(

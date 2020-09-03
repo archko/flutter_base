@@ -9,17 +9,23 @@ import 'package:flutter_base/widget/banner/custom_banner.dart';
 import 'package:flutter_base_example/entity/animate.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class MovieProvider extends BaseListViewModel with ChangeNotifier {
+class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
   RefreshController refreshController;
   List<BannerBean> _bannerBeans;
 
   MovieProvider({this.refreshController}) {
-    //refresh();
+    page = 0;
+  }
+
+  @override
+  List<Animate> getData() {
+    return data;
   }
 
   @override
   Future loadData({int pn}) async {
     List<Animate> list = await loadMovie(pn: 0);
+    print("loadData:$list");
     setData(list);
     if (list == null || list.length == 0) {
       loadingStatus = LoadingStatus.failed;
@@ -39,6 +45,7 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
 
   Future loadMore({int pn}) async {
     List<Animate> list = await loadMovie(pn: page + 1);
+    print("loadMore:$list");
     if (list != null && list.length > 0) {
       addData(list);
 

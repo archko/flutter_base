@@ -47,7 +47,7 @@ class _MovieListPageState extends State<MovieListPage>
           child: SmartRefresher(
             physics: BouncingScrollPhysics(),
             enablePullDown: true,
-            enablePullUp: false,
+            enablePullUp: true,
             controller: refreshController,
             onRefresh: model.loadData,
             onLoading: model.loadMore,
