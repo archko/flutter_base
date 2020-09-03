@@ -5,13 +5,13 @@ import 'package:flutter_base/http/http_response.dart';
 import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/utils/isolate_utils.dart';
 import 'package:flutter_base/utils/json_utils.dart';
+import 'package:flutter_base/widget/banner/custom_banner.dart';
 import 'package:flutter_base_example/entity/animate.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieProvider extends BaseListViewModel with ChangeNotifier {
   RefreshController refreshController;
-
-  bool refreshFailed = false;
+  List<BannerBean> _bannerBeans;
 
   MovieProvider({this.refreshController}) {
     //refresh();
@@ -22,12 +22,12 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     List<Animate> list = await loadMovie(pn: 0);
     setData(list);
     if (list == null || list.length == 0) {
-      refreshFailed = true;
+      loadingStatus = LoadingStatus.failed;
       refreshController?.refreshCompleted();
       notifyListeners();
       return;
     }
-    refreshFailed = false;
+    loadingStatus = LoadingStatus.successed;
     if (list != null && list.length > 0) {
       refreshController?.refreshCompleted();
     } else {
@@ -79,5 +79,29 @@ class MovieProvider extends BaseListViewModel with ChangeNotifier {
     return JsonUtils.decodeAsMap(result)['data'][0]['result']
         .map<Animate>((dynamic json) => Animate.fromJson(json))
         .toList();
+  }
+
+  static List<BannerBean> decodeBannerListResult(String result) {
+    return JsonUtils.decodeAsList(result).map<BannerBean>((dynamic json) {
+      BannerBean bean = BannerBean();
+      bean.imageUrl = json['image'];
+      bean.title = json['title'];
+      return bean;
+    }).toList();
+  }
+
+  Future loadBanner() async {
+    String bannerJson =
+        '[{"image":"http://gank.io/images/cfb4028bfead41e8b6e34057364969d1","title":"干货集中营新版更新","url":"https://gank.io/migrate_progress"},{"image":"http://gank.io/images/aebca647b3054757afd0e54d83e0628e","title":"- 春水初生，春林初盛，春风十里，不如你。","url":"https://gank.io/post/5e51497b6e7524f833c3f7a8"},{"image":"https://pic.downk.cc/item/5e7b64fd504f4bcb040fae8f.jpg","title":"盘点国内那些免费好用的图床","url":"https://gank.io/post/5e7b5a8b6d2e518fdeab27aa"}]';
+    _bannerBeans = await loadWithBalancer<List<BannerBean>, String>(
+        decodeBannerListResult, bannerJson);
+    notifyListeners();
+  }
+
+  List<BannerBean> getBannerBeans() {
+    if (_bannerBeans == null) {
+      return [];
+    }
+    return _bannerBeans;
   }
 }

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:flutter_base/model/provider_widget.dart';
+import 'package:flutter_base/widget/banner/custom_banner.dart';
 import 'package:flutter_base/widget/tabs/tabs_widget.dart';
+import 'package:flutter_base_example/model/movie_provider.dart';
 import 'package:flutter_base_example/page/movie_list_page.dart';
+import 'package:provider/provider.dart';
 
 class HomeTabsPage extends StatefulWidget {
   HomeTabsPage({Key key}) : super(key: key);
@@ -25,6 +29,7 @@ class _HomeTabsPageState extends State<HomeTabsPage>
   ];
   List<TabItem> _tabItems = [];
   TabController _tabController;
+  MovieProvider _movieProvider;
   ShapeDecoration _decoration = ShapeDecoration(
     shape: StadiumBorder(
           side: BorderSide(
@@ -54,6 +59,7 @@ class _HomeTabsPageState extends State<HomeTabsPage>
             "index:${_tabController.index},preIndex:${_tabController.previousIndex},length:${_tabController.length}");
       }
     });
+    _movieProvider = MovieProvider();
   }
 
   @override
@@ -93,37 +99,55 @@ class _HomeTabsPageState extends State<HomeTabsPage>
     //    ),
     //  ),
     //);
-    return NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-
-            ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
-            ///所以我就用了SliverPersistentHeader来实现这个效果，SliverAppBar的bottom中只放TabBar顶部的布局
-            sliver: _bar(context),
-          ),
-
-          ///停留在顶部的TabBar
-          //SliverPersistentHeader(
-          //  delegate: _SliverAppBarDelegate(_timeSelection()),
-          //  pinned: true,
-          //),
-        ];
+    return ProviderWidget<MovieProvider>(
+      model: _movieProvider,
+      onModelInitial: (m) {
+        m.loadData();
+        m.loadBanner();
       },
-      body: _buildBody(context),
+      child: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+
+              ///SliverAppBar也可以实现吸附在顶部的TabBar，但是高度不好计算，总是会有AppBar的空白高度，
+              ///所以我就用了SliverPersistentHeader来实现这个效果，SliverAppBar的bottom中只放TabBar顶部的布局
+              //sliver: _bar(context),
+              sliver: Selector<MovieProvider, List<BannerBean>>(
+                builder: (_, List<BannerBean> data, child) {
+                  return _bar(context);
+                },
+                selector: (_, MovieProvider homeProvider) {
+                  return homeProvider.getBannerBeans();
+                },
+                shouldRebuild: (List<BannerBean> prev, List<BannerBean> now) {
+                  return prev == null || prev != now;
+                },
+              ),
+            ),
+
+            ///停留在顶部的TabBar
+            //SliverPersistentHeader(
+            //  delegate: _SliverAppBarDelegate(_timeSelection()),
+            //  pinned: true,
+            //),
+          ];
+        },
+        body: _buildBody(context),
+      ),
     );
   }
 
   Widget _bar(BuildContext context) {
     Widget widget;
-    //if (model.getBannerBeans() == null) {
-    //  widget = Center(
-    //    child: CircularProgressIndicator(),
-    //  );
-    //} else {
-    //  widget = CustomBanner(model.getBannerBeans());
-    //}
+    if (_movieProvider.getBannerBeans() == null) {
+      widget = Center(
+        child: CircularProgressIndicator(),
+      );
+    } else {
+      widget = CustomBanner(banners: _movieProvider.getBannerBeans());
+    }
     return SliverAppBar(
       centerTitle: true,
       expandedHeight: 200.0,
@@ -163,10 +187,21 @@ class _HomeTabsPageState extends State<HomeTabsPage>
   }
 
   Widget _buildBody(BuildContext context) {
-    return buildDefaultTabs();
+    Widget content;
+    if (_movieProvider.loadingStatus == LoadingStatus.loading) {
+      content = Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (_movieProvider.loadingStatus == LoadingStatus.successed) {
+      content = _buildDefaultTabs();
+    } else {
+      content = _buildDefaultTabs();
+    }
+
+    return content;
   }
 
-  Widget buildDefaultTabs() {
+  Widget _buildDefaultTabs() {
     return TabsWidget(
       tabsViewStyle: TabsViewStyle.noAppbarTopTab,
       tabController: _tabController,

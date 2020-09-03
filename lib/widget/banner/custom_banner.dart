@@ -5,32 +5,41 @@ import 'package:flutter/material.dart';
 class BannerBean {
   String imageUrl;
   String title;
+  String action;
+  String extend;
 
   BannerBean({
     this.imageUrl,
     this.title,
+    this.action,
+    this.extend,
   });
 
   @override
   String toString() {
-    return 'BannerBean{imageUrl: $imageUrl, title: $title}';
+    return 'BannerBean{imageUrl: $imageUrl, title: $title, action: $action, extend: $extend}';
   }
 }
 
 class CustomBanner extends StatefulWidget {
-  final List<BannerBean> _images;
+  final List<BannerBean> banners;
   final double height;
   final ValueChanged<int> onTap;
   final Curve curve;
   final Widget indicator;
+  final IndexedWidgetBuilder itemBuilder;
 
-  CustomBanner(
-    this._images, {
+  CustomBanner({
+    Key key,
+    this.banners,
     this.height = 200,
     this.onTap,
     this.curve = Curves.linearToEaseOut,
     this.indicator,
-  }) : assert(_images != null);
+    this.itemBuilder,
+  }) : super(key: key) {
+    assert(banners != null);
+  }
 
   @override
   _CustomBannerState createState() => _CustomBannerState();
@@ -38,15 +47,14 @@ class CustomBanner extends StatefulWidget {
 
 class _CustomBannerState extends State<CustomBanner> {
   PageController _pageController;
-  int _index;
+  int _index = 0;
   Timer _timer;
 
   @override
   void initState() {
     super.initState();
-    _index = widget._images.length * 5;
     _pageController = PageController(initialPage: _index);
-    _initTimer();
+    initTimer();
   }
 
   @override
@@ -61,19 +69,19 @@ class _CustomBannerState extends State<CustomBanner> {
   }
 
   Widget _buildIndicator() {
-    var length = widget._images.length;
+    var length = widget.banners.length;
 
     return widget.indicator != null
         ? widget.indicator
         : Positioned(
             bottom: 10,
             child: Row(
-              children: widget._images.map((s) {
+              children: widget.banners.map((s) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 2.0),
                   child: Container(
                     decoration: BoxDecoration(
-                        color: s == widget._images[_index % length]
+                        color: s == widget.banners[_index % length]
                             ? Colors.white
                             : Colors.green,
                         //gradient: s == widget._images[_index % length]
@@ -100,7 +108,7 @@ class _CustomBannerState extends State<CustomBanner> {
   }
 
   Widget _buildView() {
-    var length = widget._images.length;
+    var length = widget.banners.length;
     if (length == 0) {
       return Container(
         height: widget.height,
@@ -121,41 +129,47 @@ class _CustomBannerState extends State<CustomBanner> {
             }
           });
         },
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onPanDown: (details) {
-              _cancelTimer();
-            },
-            onTap: () {
-              widget.onTap(index);
-            },
-            child: Image.network(
-              widget._images[index % length].imageUrl,
-              fit: BoxFit.cover,
-            ),
-          );
-        },
+        itemBuilder: widget.itemBuilder != null
+            ? widget.itemBuilder
+            : (context, index) {
+                return GestureDetector(
+                  onPanDown: (details) {
+                    cancelTimer();
+                  },
+                  onPanEnd: (details) {
+                    initTimer();
+                  },
+                  onTap: () {
+                    widget.onTap(index);
+                  },
+                  child: Image.network(
+                    widget.banners[index % length].imageUrl,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              },
       ),
     );
   }
 
-  _cancelTimer() {
+  cancelTimer() {
     if (_timer != null) {
       _timer.cancel();
       _timer = null;
-      _initTimer();
     }
   }
 
-  _initTimer() {
+  initTimer() {
     if (_timer == null) {
       _timer = Timer.periodic(Duration(seconds: 3), (t) {
         _index++;
-        _pageController.animateToPage(
-          _index,
-          duration: Duration(milliseconds: 800),
-          curve: widget.curve,
-        );
+        if (_pageController.hasClients) {
+          _pageController.animateToPage(
+            _index,
+            duration: Duration(milliseconds: 800),
+            curve: widget.curve,
+          );
+        }
       });
     }
   }
