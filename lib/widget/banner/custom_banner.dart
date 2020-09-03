@@ -27,7 +27,7 @@ class CustomBanner extends StatefulWidget {
   final ValueChanged<int> onTap;
   final Curve curve;
   final Widget indicator;
-  final IndexedWidgetBuilder itemBuilder;
+  final WidgetBuilder itemBuilder;
   final int switchDuration;
   final int animationDuration;
 
