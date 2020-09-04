@@ -26,22 +26,31 @@ class _TestAppState extends State<TestApp> {
       ),
       home: Scaffold(
         appBar: TitleBar.simpleTitleBar("test"),
-        body: Column(
-          children: <Widget>[
-            RaisedButton(
-              onPressed: () {
-                ProgressDialog.showProgress(context,
-                    child: ProgressDialog.progressChild());
-              },
-              child: Text("progress dialog"),
-            ),
-            RaisedButton(
-              onPressed: () {
-                showDialogItems(context);
-              },
-              child: Text("dialog item"),
-            ),
-          ],
+        body: Container(
+          margin: EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              RaisedButton(
+                onPressed: () {
+                  ProgressDialog.showProgress(context);
+                },
+                child: Text("progress dialog"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  showDialogItems(context);
+                },
+                child: Text("dialog item"),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  modeBottomDialog(context);
+                },
+                child: Text("modeBottomDialog"),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -73,6 +82,10 @@ class _TestAppState extends State<TestApp> {
               color: theme.colorScheme.primary,
               text: "取消",
             ),
+            DialogItem(
+              color: theme.colorScheme.primary,
+              text: "取消",
+            ),
           ],
           elevation: 10,
           semanticLabel: "AlertDialog",
@@ -81,5 +94,38 @@ class _TestAppState extends State<TestApp> {
         );
       },
     );
+  }
+
+  Future modeBottomDialog(BuildContext context) async {
+    var result = await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                DialogItem(
+                  text: "分享到 QQ",
+                  onPressed: () {
+                    print("分享到 QQ");
+                  },
+                ),
+                DialogItem(
+                  text: "分享到 微信",
+                  onPressed: () {
+                    print("分享到 QQ");
+                  },
+                ),
+                DialogItem(
+                  text: "分享到 微博",
+                  onPressed: () {
+                    print("分享到 微博");
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+    return result;
   }
 }

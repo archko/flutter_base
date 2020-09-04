@@ -23,11 +23,16 @@ class DialogItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            icon,
-            size: 36,
-            color: color,
-          ),
+          icon == null
+              ? SizedBox(
+                  width: 0,
+                  height: 36,
+                )
+              : Icon(
+                  icon,
+                  size: 36,
+                  color: color,
+                ),
           Flexible(
             child: Padding(
               padding: const EdgeInsetsDirectional.only(start: 16),
@@ -44,43 +49,50 @@ class DialogItem extends StatelessWidget {
 class ProgressDialog {
   static bool _isShowing = false;
 
+  static bool get isShowing => _isShowing;
+
   static Widget progressChild({String text = "加载中"}) {
-    return Container(
-      width: 90,
-      height: 90,
-      decoration: BoxDecoration(
-        color: Color(0xBA000000),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.center,
-            child: CircularProgressIndicator(
+    return SizedBox(
+      width: 100.0,
+      height: 100.0,
+      child: Container(
+        decoration: ShapeDecoration(
+          color: Color(0xBA000000),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8.0),
+            ),
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(Colors.blue),
             ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.white, fontSize: 11),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 10.0,
+              ),
+              child: Text(
+                text,
+                style: TextStyle(color: Colors.white, fontSize: 12.0),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   ///展示
-  static void showProgress(
-    BuildContext context, {
-    Widget child = const CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation(Colors.blue),
-    ),
-  }) {
+  static void showProgress(BuildContext context, {Widget child}) {
     if (!_isShowing) {
       _isShowing = true;
+      if (null == child) {
+        child = progressChild();
+      }
       Navigator.push(
         context,
         _PopRoute(
@@ -113,6 +125,7 @@ class _ProgressWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
+      type: MaterialType.transparency, //透明类型
       child: Center(
         child: child,
       ),
