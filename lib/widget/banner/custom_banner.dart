@@ -152,8 +152,6 @@ class _CustomBannerState extends State<CustomBanner> {
                 return GestureDetector(
                   onPanDown: (details) {
                     cancelTimer();
-                  },
-                  onPanEnd: (details) {
                     initTimer();
                   },
                   onTap: () {

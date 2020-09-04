@@ -122,6 +122,7 @@ class _TestAppState extends State<TestApp> {
                     print("分享到 微博");
                   },
                 ),
+                SizedBox(width: 0,height: 40,),
               ],
             ),
           );
