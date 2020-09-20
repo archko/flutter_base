@@ -4,29 +4,26 @@ import 'package:flutter_base/log/logger.dart';
 class HttpLogInterceptor extends Interceptor {
   @override
   Future onRequest(RequestOptions options) async {
-    Logger.d(
-        "#------------------ Request Start -----------------#");
+    Logger.d("#------------------ Request Start -----------------#");
     StringBuffer sb = StringBuffer();
-    sb.write(
-        "onRequest:method:${options.method},contentType:${options
-            .contentType},responseType:${options.responseType},");
-    sb.write("path:${options.path}, headers:");
+
     if (options.headers != null && options.headers.length > 0) {
-      options.headers
-          .forEach((key, value) => sb.write('key=$key, value=$value'));
+      sb.write("headers:");
+      options.headers.forEach((key, value) => sb.write(',$key=$value'));
     }
     if (options.queryParameters != null && options.queryParameters.length > 0) {
-      sb.write(", queryParameters:");
-      options.queryParameters
-          .forEach((key, value) => sb.write('key=$key, value=$value'));
+      sb.write("\nqueryParameters:");
+      options.queryParameters.forEach((key, value) => sb.write('$key=$value, '));
     }
+    sb.write(
+        ",onRequest:method:${options.method},responseType:${options.responseType}, ");
+    sb.write("path:${options.path}");
     Logger.d(sb);
     return options;
   }
 
   @override
   Future onResponse(Response response) async {
-    Logger.d("#---------------- Response End -----------------#");
     if (response.request.responseType == ResponseType.plain) {
       var contentLength = (response.data as String).length;
       String bodySize = "$contentLength-byte";
@@ -45,6 +42,7 @@ class HttpLogInterceptor extends Interceptor {
     } else {
       Logger.d("response:$response");
     }
+    Logger.d("#---------------- Response End -----------------#");
     return response;
   }
 
