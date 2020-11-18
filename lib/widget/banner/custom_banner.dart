@@ -155,7 +155,9 @@ class _CustomBannerState extends State<CustomBanner> {
                     initTimer();
                   },
                   onTap: () {
-                    widget.onTap(index);
+                    if (null != widget.onTap) {
+                      widget.onTap(index);
+                    }
                   },
                   child: Image.network(
                     widget.banners[index % length].imageUrl,
