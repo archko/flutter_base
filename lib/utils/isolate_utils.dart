@@ -19,7 +19,7 @@ import 'package:flutter/foundation.dart';
 //   return await lb.run<dynamic, T>(function, data);
 // }
 
-Future<R> run<R, P>(
-    FutureOr<R> Function(dynamic argument) function, P data) async {
-  return await compute<dynamic, R>(function, data);
+Future<R> run<R, String>(
+    FutureOr<R> Function(String argument) function, String data) async {
+  return await compute<String, R>(function, data);
 }
