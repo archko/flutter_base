@@ -1,5 +1,8 @@
 // //import 'package:isolate/isolate.dart';
-//
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+
 // import '../isolate.dart';
 //
 // /// usage:
@@ -15,3 +18,8 @@
 //   final lb = await loadBalancer;
 //   return await lb.run<dynamic, T>(function, data);
 // }
+
+Future<R> run<R, P>(
+    FutureOr<R> Function(dynamic argument) function, P data) async {
+  return await compute<dynamic, R>(function, data);
+}
