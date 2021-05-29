@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_base/utils/isolate_utils.dart';
 
 class HttpTransformer extends DefaultTransformer {
@@ -13,6 +14,6 @@ _parseAndDecode(String response) {
 }
 
 _parseJson(String text) async {
-  return await loadWithBalancer<dynamic, String>(_parseAndDecode, text);
-  //return compute(_parseAndDecode, text);
+  //return await loadWithBalancer<dynamic, String>(_parseAndDecode, text);
+  return await compute(_parseAndDecode, text);
 }
