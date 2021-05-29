@@ -22,7 +22,7 @@ abstract class BaseListViewModel<T> {
     return data;
   }
 
-  void addData(List<T> list) {
+  void addData(List<T>? list) {
     if (null != list) {
       data.addAll(list);
     }
@@ -47,9 +47,9 @@ abstract class BaseListViewModel<T> {
     return data == null ? 0 : data.length;
   }
 
-  Future loadData({int pn});
+  Future loadData({int? pn});
 
-  Future loadMore({int pn});
+  Future loadMore({int? pn});
 
   @override
   String toString() {
