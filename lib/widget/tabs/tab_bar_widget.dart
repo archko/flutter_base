@@ -4,11 +4,12 @@ import 'package:flutter_base/widget/tabs/gsy_tab_bar_widget.dart';
 typedef TabClick = void Function(int index, String name);
 
 class TabBarPageWidget extends StatefulWidget {
-  final String title;
+  final String? title;
   final List<Widget> tabViews;
-  final TabClick tabClick;
+  final TabClick? tabClick;
 
-  const TabBarPageWidget({Key key, this.title, this.tabViews, this.tabClick})
+  const TabBarPageWidget(
+      {Key? key, this.title, required this.tabViews, this.tabClick})
       : super(key: key);
 
   @override
@@ -19,16 +20,13 @@ class _TabBarPageWidgetState extends State<TabBarPageWidget> {
   final PageController pageControl = new PageController();
 
   _renderTab() {
-    List<Widget> list = new List();
+    List<Widget> list = new List.empty();
     for (int i = 0; i < widget.tabViews.length; i++) {
       list.add(FlatButton(
           onPressed: () {
-            pageControl.jumpTo(MediaQuery
-                .of(context)
-                .size
-                .width * i);
+            pageControl.jumpTo(MediaQuery.of(context).size.width * i);
             if (widget.tabClick != null) {
-              widget.tabClick(i, widget.tabViews[i].toStringShort());
+              widget.tabClick!(i, widget.tabViews[i].toStringShort());
             }
           },
           child: Text(
@@ -52,6 +50,6 @@ class _TabBarPageWidgetState extends State<TabBarPageWidget> {
         tabViews: _renderPage(),
         pageControl: pageControl,
         indicatorColor: Colors.white,
-        title: new Text(widget.title == null ? "" : widget.title));
+        title: new Text(widget.title == null ? "" : widget.title!));
   }
 }

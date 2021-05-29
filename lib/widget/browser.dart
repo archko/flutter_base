@@ -4,7 +4,7 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class Browser extends StatelessWidget {
   static open(BuildContext context, String url,
-      {String title, String waitingTxt}) {
+      {required String title, String? waitingTxt}) {
     Navigator.of(context).push(
       new MaterialPageRoute<void>(
         builder: (_) {
@@ -20,9 +20,10 @@ class Browser extends StatelessWidget {
 
   final String url;
   final String title;
-  final String waitingTxt;
+  final String? waitingTxt;
 
-  const Browser({Key key, this.url, this.title, this.waitingTxt})
+  const Browser(
+      {Key? key, required this.url, required this.title, this.waitingTxt})
       : super(key: key);
 
   @override
@@ -43,8 +44,7 @@ class Browser extends StatelessWidget {
         initialChild: Container(
           color: Colors.white10,
           child: Center(
-            child: Text(
-                StringUtils.isEmpty(waitingTxt) ? 'Waiting.....' : waitingTxt),
+            child: Text(waitingTxt != null ? waitingTxt! : 'Waiting.....'),
           ),
         ),
       ),

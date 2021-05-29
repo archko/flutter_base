@@ -6,11 +6,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
  */
 class PullWidget extends StatefulWidget {
   PullWidget(
-      {Key key,
-      this.pullController,
-      this.itemBuilder,
+      {Key? key,
+      required this.pullController,
+      required this.itemBuilder,
       this.child,
-      this.listCount,
+      this.listCount = 0,
       this.onLoadMore,
       this.onRefresh,
       this.header,
@@ -19,11 +19,11 @@ class PullWidget extends StatefulWidget {
   final int listCount;
   final RefreshController pullController;
   final IndexedWidgetBuilder itemBuilder;
-  final Widget child;
-  final RefreshCallback onLoadMore;
-  final RefreshCallback onRefresh;
-  final Widget header;
-  final Widget footer;
+  final Widget? child;
+  final RefreshCallback? onLoadMore;
+  final RefreshCallback? onRefresh;
+  final Widget? header;
+  final Widget? footer;
 
   @override
   _PullWidgetState createState() => new _PullWidgetState();
@@ -32,7 +32,7 @@ class PullWidget extends StatefulWidget {
 class _PullWidgetState extends State<PullWidget> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
 
   _PullWidgetState() : super();
 
@@ -75,7 +75,7 @@ class _PullWidgetState extends State<PullWidget> {
         footer: widget.footer != null
             ? widget.footer
             : CustomFooter(
-                builder: (BuildContext context, LoadStatus mode) {
+          builder: (BuildContext context, LoadStatus? mode) {
                   Widget body;
                   if (mode == LoadStatus.idle) {
                     body = Text("pull up load");

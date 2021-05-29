@@ -19,16 +19,16 @@ class DartChannel {
     });
   }
 
-  Future<T> invokeMethod<T>(String method, [dynamic arguments]) async {
+  Future<T?> invokeMethod<T>(String method, [dynamic arguments]) async {
     return await _methodChannel.invokeMethod<T>(method, arguments);
   }
 
-  Future<List<T>> invokeListMethod<T>(String method,
+  Future<List<T>?> invokeListMethod<T>(String method,
       [dynamic arguments]) async {
     return await _methodChannel.invokeListMethod<T>(method, arguments);
   }
 
-  Future<Map<K, V>> invokeMapMethod<K, V>(String method,
+  Future<Map<K, V>?> invokeMapMethod<K, V>(String method,
       [dynamic arguments]) async {
     return await _methodChannel.invokeMapMethod<K, V>(method, arguments);
   }

@@ -3,7 +3,8 @@ import 'package:flutter_base/log/logger.dart';
 
 class HttpLogInterceptor extends Interceptor {
   @override
-  Future onRequest(RequestOptions options) async {
+  Future<dynamic> onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
     Logger.d("#------------------ Request Start -----------------#");
     StringBuffer sb = StringBuffer();
 
@@ -13,7 +14,8 @@ class HttpLogInterceptor extends Interceptor {
     }
     if (options.queryParameters != null && options.queryParameters.length > 0) {
       sb.write("\nqueryParameters:");
-      options.queryParameters.forEach((key, value) => sb.write('$key=$value, '));
+      options.queryParameters
+          .forEach((key, value) => sb.write('$key=$value, '));
     }
     sb.write(
         ",onRequest:method:${options.method},responseType:${options.responseType}, ");
@@ -23,8 +25,9 @@ class HttpLogInterceptor extends Interceptor {
   }
 
   @override
-  Future onResponse(Response response) async {
-    if (response.request.responseType == ResponseType.plain) {
+  Future onResponse(
+      Response response, ResponseInterceptorHandler handler) async {
+    if (response.requestOptions.responseType == ResponseType.plain) {
       var contentLength = (response.data as String).length;
       String bodySize = "$contentLength-byte";
       StringBuffer sb = StringBuffer();
@@ -47,7 +50,7 @@ class HttpLogInterceptor extends Interceptor {
   }
 
   @override
-  Future onError(DioError err) async {
+  Future onError(DioError err, ErrorInterceptorHandler handler) async {
     Logger.d("onError:$err");
     return err;
   }

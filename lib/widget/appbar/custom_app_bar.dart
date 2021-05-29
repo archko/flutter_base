@@ -5,12 +5,12 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final double height;
   final Color backgroundColor;
   final String title;
-  Widget child;
+  Widget? child;
 
   CustomAppBar({
     this.child,
-    this.backgroundColor,
-    this.title,
+    this.backgroundColor = Colors.white,
+    this.title = "",
     this.height = 48,
   }) {
     if (child == null) {

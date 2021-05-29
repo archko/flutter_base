@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ListMoreWidget extends StatelessWidget {
-  ListMoreWidget({Key key, this.loadMoreStatus, this.retry}) : super(key: key);
+  ListMoreWidget({Key? key, required this.loadMoreStatus, this.retry})
+      : super(key: key);
 
   LoadMoreStatus loadMoreStatus;
-  final Function retry;
+  final Function? retry;
 
   @override
   Widget build(BuildContext context) {
     print("build:$loadMoreStatus");
-    Widget widget;
+    late Widget widget;
     if (loadMoreStatus == LoadMoreStatus.FAIL) {
       if (retry != null) {
         widget = Container(
@@ -21,7 +22,7 @@ class ListMoreWidget extends StatelessWidget {
         );
         widget = GestureDetector(
           onTap: () {
-            retry();
+            retry!();
           },
           child: widget,
         );

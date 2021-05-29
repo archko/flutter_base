@@ -4,5 +4,5 @@ class HttpResponse {
   var data;
   bool isSuccess;
 
-  HttpResponse(this.data, this.msg, this.code, {this.isSuccess});
+  HttpResponse(this.data, this.msg, this.code, {this.isSuccess = false});
 }

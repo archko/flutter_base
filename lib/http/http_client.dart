@@ -15,8 +15,8 @@ class HttpClient {
   static const String DELETE = 'delete';
 
   static HttpClient get instance => _getInstance();
-  static HttpClient _instance;
-  Dio dio;
+  static late HttpClient _instance;
+  late Dio dio;
 
   HttpClient._init() {
     if (dio == null) {
@@ -57,8 +57,8 @@ class HttpClient {
     return _instance;
   }
 
-  Options processHeaderAndOption(
-      Options oldOptions, Map header, ResponseType responseType) {
+  Options processHeaderAndOption(Options oldOptions,
+      Map<String, dynamic> header, ResponseType responseType) {
     Options options = oldOptions;
 
     ///Options
@@ -71,12 +71,13 @@ class HttpClient {
       if (options.headers == null) {
         options.headers = new Map();
       }
-      options.headers.addAll(header);
+      options.headers!.addAll(header);
     }
     return options;
   }
 
-  Future get(url, {params, header, Options option, responseType}) async {
+  Future get(url,
+      {params, header, required Options option, responseType}) async {
     Options options = processHeaderAndOption(option, header, responseType);
     options.method = GET;
 
@@ -98,7 +99,7 @@ class HttpClient {
   }
 
   Future<HttpResponse> request(url, {options, queryParameters, data}) async {
-    Response response;
+    late Response response;
 
     ///dio request
     try {
@@ -108,11 +109,11 @@ class HttpClient {
       Logger.d("response error $e");
       Logger.d(
           "response error params:$queryParameters, headers:${options.headers}");
-      Response errorResponse = e.response ?? Response();
-      if (e.type == DioErrorType.CONNECT_TIMEOUT) {
+      Response errorResponse = e.response ?? Response(requestOptions: options);
+      if (e.type == DioErrorType.connectTimeout) {
         errorResponse.statusCode = 503;
       }
-      return HttpResponse(e.message, e.message, errorResponse.statusCode,
+      return HttpResponse(e.message, e.message, errorResponse.statusCode!,
           isSuccess: false);
     } catch (e) {
       Logger.d("response error2 $e");
@@ -121,18 +122,18 @@ class HttpClient {
     ///result
     try {
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return HttpResponse(response.data, "ok", response.statusCode,
+        return HttpResponse(response.data, "ok", response.statusCode!,
             isSuccess: true);
       }
     } catch (e) {
       Logger.d("params:$queryParameters, headers:${options.headers}");
       Logger.d("net error:${e.toString()}");
-      return HttpResponse(e.toString(), e.toString(), response.statusCode,
+      return HttpResponse(e.toString(), e.toString(), response.statusCode!,
           isSuccess: false);
     }
 
     Logger.d("some error:");
-    return HttpResponse("net work error", "", response.statusCode,
+    return HttpResponse("net work error", "", response.statusCode!,
         isSuccess: false);
   }
 }

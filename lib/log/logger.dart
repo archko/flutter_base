@@ -9,13 +9,13 @@ class Logger {
     debugable = debuggable;
   }
 
-  static void d(Object object, {String tag}) {
+  static void d(Object object, {String tag = TAG}) {
     if (debugable) {
       printLog(tag, '  v  ', object);
     }
   }
 
-  static void e(Object object, {String tag}) {
+  static void e(Object object, {String tag = TAG}) {
     printLog(tag, '  e  ', object);
   }
 

@@ -6,17 +6,17 @@ import 'package:flutter_base/widget/list/list_more_widget.dart';
  */
 class PullToRefreshWidget extends StatefulWidget {
   PullToRefreshWidget(
-      {Key key,
-      this.itemBuilder,
-      this.listCount,
+      {Key? key,
+      required this.itemBuilder,
+      this.listCount = 0,
       this.onLoadMore,
       this.onRefresh,
-      this.loadMoreStatus})
+      required this.loadMoreStatus})
       : super(key: key);
   final IndexedWidgetBuilder itemBuilder;
   final int listCount;
-  final RefreshCallback onLoadMore;
-  final RefreshCallback onRefresh;
+  final RefreshCallback? onLoadMore;
+  final RefreshCallback? onRefresh;
   final LoadMoreStatus loadMoreStatus;
 
   @override
@@ -24,7 +24,7 @@ class PullToRefreshWidget extends StatefulWidget {
 }
 
 class _PullToRefreshWidgetState extends State<PullToRefreshWidget> {
-  ScrollController _scrollController;
+  late ScrollController _scrollController;
 
   _PullToRefreshWidgetState() : super();
 

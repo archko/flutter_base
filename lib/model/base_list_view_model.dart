@@ -4,9 +4,9 @@ abstract class BaseListViewModel<T> {
   bool hasMore = true;
   LoadingStatus loadingStatus = LoadingStatus.idle;
   int page = 0;
-  List<T> data = new List<T>();
+  List<T> data = new List.empty();
 
-  BaseListViewModel({this.page});
+  BaseListViewModel({this.page = 0});
 
   bool get value => hasMore;
 
@@ -54,13 +54,13 @@ abstract class BaseListViewModel<T> {
   }
 }
 
-Widget getLoadingStatusWidget({
-  LoadingStatus loadingStatus,
-  bool hasData,
-  Widget loadingWidget,
-  Widget loadErrorWidget,
-  Widget loadNoDataWidget,
-  Widget widget,
+Widget getLoadingStatusWidget(
+  Widget widget, {
+  LoadingStatus loadingStatus = LoadingStatus.idle,
+  bool hasData = true,
+  Widget? loadingWidget,
+  Widget? loadErrorWidget,
+  Widget? loadNoDataWidget,
 }) {
   String text = "加载中";
   if (loadingStatus == LoadingStatus.successed) {

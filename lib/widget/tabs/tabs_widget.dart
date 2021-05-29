@@ -10,38 +10,38 @@ enum TabsViewStyle {
 }
 
 class TabItem {
-  const TabItem({this.icon, this.text});
+  const TabItem({this.icon, required this.text});
 
-  final IconData icon;
+  final IconData? icon;
   final String text;
 }
 
 class TabsWidget extends StatefulWidget {
   final TabsViewStyle tabsViewStyle;
-  final TabController tabController;
+  final TabController? tabController;
   final TabsStyle tabStyle;
 
   final bool showAppBar;
   final bool customIndicator;
-  final Widget title;
+  final Widget? title;
   final List<Widget> tabViews;
   final List<TabItem> tabItems;
-  final List<Widget> tabWidgets;
+  final List<Widget>? tabWidgets;
 
   final bool isScrollable;
   final Color backgroundColor;
   final Color indicatorColor;
   final Color labelColor;
   final Color unselectedLabelColor;
-  final Decoration decoration;
+  final Decoration? decoration;
 
   TabsWidget({
-    Key key,
+    Key? key,
     this.tabsViewStyle = TabsViewStyle.appbarTopTab,
     this.tabController,
-    this.tabViews,
+    required this.tabViews,
     this.title,
-    this.tabItems,
+    required this.tabItems,
     this.tabWidgets,
     this.tabStyle = TabsStyle.textOnly,
     this.showAppBar = true,
@@ -75,23 +75,23 @@ class TabsWidget extends StatefulWidget {
 
 class TabsWidgetState extends State<TabsWidget>
     with SingleTickerProviderStateMixin {
-  final TabsViewStyle _tabsViewStyle;
-  TabController tabController;
+  final TabsViewStyle? _tabsViewStyle;
+  TabController? tabController;
   TabsStyle tabStyle;
 
   bool customIndicator;
 
-  final Widget _title;
+  final Widget? _title;
   final List<Widget> _tabViews;
   final List<TabItem> tabItems;
-  final List<Widget> tabWidgets;
+  final List<Widget>? tabWidgets;
   bool isScrollable;
 
-  Color backgroundColor;
+  Color? backgroundColor;
   Color indicatorColor;
-  Color labelColor;
-  Color unselectedLabelColor;
-  final Decoration decoration;
+  Color? labelColor;
+  Color? unselectedLabelColor;
+  final Decoration? decoration;
 
   TabsWidgetState(
     this._tabsViewStyle,
@@ -115,7 +115,7 @@ class TabsWidgetState extends State<TabsWidget>
     if (null == tabController) {
       tabController = TabController(
           vsync: this,
-          length: tabWidgets != null ? tabWidgets.length : tabItems.length);
+          length: tabWidgets != null ? tabWidgets!.length : tabItems!.length);
     }
   }
 
@@ -142,7 +142,7 @@ class TabsWidgetState extends State<TabsWidget>
           borderSide: BorderSide(width: 2.0, color: indicatorColor));
 
     return decoration != null
-        ? decoration
+        ? decoration!
         : ShapeDecoration(
             shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
@@ -164,7 +164,7 @@ class TabsWidgetState extends State<TabsWidget>
   @override
   Widget build(BuildContext context) {
     List<Widget> tabs = tabWidgets != null
-        ? tabWidgets
+        ? tabWidgets!
         : tabItems.map<Tab>((TabItem page) {
             assert(tabStyle != null);
             switch (tabStyle) {
@@ -242,5 +242,6 @@ class TabsWidgetState extends State<TabsWidget>
         ),
       );
     }
+    return Scaffold();
   }
 }

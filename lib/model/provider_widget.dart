@@ -4,13 +4,13 @@ import 'package:provider/provider.dart';
 class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   final T model;
   final Widget child;
-  final Widget Function(BuildContext context, T model, Widget child) builder;
-  final Function(T) onModelInitial;
+  final Widget Function(BuildContext context, T model, Widget? child)? builder;
+  final Function(T)? onModelInitial;
 
   ProviderWidget({
-    Key key,
-    this.model,
-    this.child,
+    Key? key,
+    required this.model,
+    required this.child,
     this.builder,
     this.onModelInitial,
   });
@@ -21,15 +21,15 @@ class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
 
 class ProviderWidgetState<T extends ChangeNotifier>
     extends State<ProviderWidget<T>> {
-  T model;
+  late T model;
 
   @override
   void initState() {
     super.initState();
     this.model = widget.model;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
-        widget.onModelInitial(this.model);
+        widget.onModelInitial!(this.model);
       }
     });
   }
@@ -41,7 +41,7 @@ class ProviderWidgetState<T extends ChangeNotifier>
       child: widget.builder == null
           ? widget.child
           : Consumer<T>(
-              builder: widget.builder,
+        builder: widget.builder!,
               child: widget.child,
             ),
     );
@@ -50,19 +50,19 @@ class ProviderWidgetState<T extends ChangeNotifier>
 
 class ProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
     extends StatefulWidget {
-  final Widget Function(BuildContext context, A model1, B model2, Widget child)
-      builder;
+  final Widget Function(
+      BuildContext context, A model1, B model2, Widget? child)? builder;
   final A model1;
   final B model2;
   final Widget child;
-  final Function(A, B) onModelInitial;
+  final Function(A, B)? onModelInitial;
 
   ProviderWidget2({
-    Key key,
+    Key? key,
     this.builder,
-    this.model1,
-    this.model2,
-    this.child,
+    required this.model1,
+    required this.model2,
+    required this.child,
     this.onModelInitial,
   }) : super(key: key);
 
@@ -71,17 +71,17 @@ class ProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
 
 class _ProviderWidgetState2<A extends ChangeNotifier, B extends ChangeNotifier>
     extends State<ProviderWidget2<A, B>> {
-  A model1;
-  B model2;
+  late A model1;
+  late B model2;
 
   @override
   void initState() {
     model1 = widget.model1;
     model2 = widget.model2;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
-        widget.onModelInitial(model1, model2);
+        widget.onModelInitial!(model1, model2);
       }
     });
     super.initState();
@@ -101,7 +101,7 @@ class _ProviderWidgetState2<A extends ChangeNotifier, B extends ChangeNotifier>
       child: widget.builder == null
           ? widget.child
           : Consumer2<A, B>(
-              builder: widget.builder,
+        builder: widget.builder!,
               child: widget.child,
             ),
     );
@@ -111,20 +111,21 @@ class _ProviderWidgetState2<A extends ChangeNotifier, B extends ChangeNotifier>
 class ProviderWidget3<A extends ChangeNotifier, B extends ChangeNotifier,
     C extends ChangeNotifier> extends StatefulWidget {
   final Widget Function(
-      BuildContext context, A model1, B model2, C model3, Widget child) builder;
+          BuildContext context, A model1, B model2, C model3, Widget? child)?
+      builder;
   final A model1;
   final B model2;
   final C model3;
   final Widget child;
-  final Function(A, B, C) onModelInitial;
+  final Function(A, B, C)? onModelInitial;
 
   ProviderWidget3({
-    Key key,
+    Key? key,
     this.builder,
-    this.model1,
-    this.model2,
-    this.model3,
-    this.child,
+    required this.model1,
+    required this.model2,
+    required this.model3,
+    required this.child,
     this.onModelInitial,
   }) : super(key: key);
 
@@ -134,9 +135,9 @@ class ProviderWidget3<A extends ChangeNotifier, B extends ChangeNotifier,
 
 class _ProviderWidgetState3<A extends ChangeNotifier, B extends ChangeNotifier,
     C extends ChangeNotifier> extends State<ProviderWidget3<A, B, C>> {
-  A model1;
-  B model2;
-  C model3;
+  late A model1;
+  late B model2;
+  late C model3;
 
   @override
   void initState() {
@@ -144,9 +145,9 @@ class _ProviderWidgetState3<A extends ChangeNotifier, B extends ChangeNotifier,
     model2 = widget.model2;
     model3 = widget.model3;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
-        widget.onModelInitial(model1, model2, model3);
+        widget.onModelInitial!(model1, model2, model3);
       }
     });
     super.initState();
@@ -169,7 +170,7 @@ class _ProviderWidgetState3<A extends ChangeNotifier, B extends ChangeNotifier,
       child: widget.builder == null
           ? widget.child
           : Consumer3<A, B, C>(
-              builder: widget.builder,
+        builder: widget.builder!,
               child: widget.child,
             ),
     );
@@ -184,23 +185,23 @@ class ProviderWidget4<A extends ChangeNotifier, B extends ChangeNotifier,
     B model2,
     C model3,
     D model4,
-    Widget child,
-  ) builder;
+    Widget? child,
+  )? builder;
   final A model1;
   final B model2;
   final C model3;
   final D model4;
   final Widget child;
-  final Function(A, B, C, D) onModelInitial;
+  final Function(A, B, C, D)? onModelInitial;
 
   ProviderWidget4({
-    Key key,
+    Key? key,
     this.builder,
-    this.model1,
-    this.model2,
-    this.model3,
-    this.model4,
-    this.child,
+    required this.model1,
+    required this.model2,
+    required this.model3,
+    required this.model4,
+    required this.child,
     this.onModelInitial,
   }) : super(key: key);
 
@@ -213,10 +214,10 @@ class _ProviderWidgetState4<
     B extends ChangeNotifier,
     C extends ChangeNotifier,
     D extends ChangeNotifier> extends State<ProviderWidget4<A, B, C, D>> {
-  A model1;
-  B model2;
-  C model3;
-  D model4;
+  late A model1;
+  late B model2;
+  late C model3;
+  late D model4;
 
   @override
   void initState() {
@@ -225,9 +226,9 @@ class _ProviderWidgetState4<
     model3 = widget.model3;
     model4 = widget.model4;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
-        widget.onModelInitial(model1, model2, model3, model4);
+        widget.onModelInitial!(model1, model2, model3, model4);
       }
     });
     super.initState();
@@ -253,7 +254,7 @@ class _ProviderWidgetState4<
       child: widget.builder == null
           ? widget.child
           : Consumer4<A, B, C, D>(
-              builder: widget.builder,
+        builder: widget.builder!,
               child: widget.child,
             ),
     );

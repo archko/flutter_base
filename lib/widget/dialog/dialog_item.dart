@@ -2,21 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DialogItem extends StatelessWidget {
-  final IconData icon;
+  final IconData? icon;
   final Color color;
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
-  const DialogItem({Key key, this.icon, this.color, this.text, this.onPressed})
+  const DialogItem(
+      {Key? key,
+      this.icon,
+      this.color = Colors.white,
+      this.text = "",
+      this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialogOption(
       onPressed: () {
-        if (onPressed != null) {
-          onPressed.call();
-        }
+        onPressed?.call();
         Navigator.pop(context);
       },
       child: Row(
@@ -87,7 +90,7 @@ class ProgressDialog {
   }
 
   ///展示
-  static void showProgress(BuildContext context, {Widget child}) {
+  static void showProgress(BuildContext context, {Widget? child}) {
     if (!_isShowing) {
       _isShowing = true;
       if (null == child) {
@@ -117,9 +120,7 @@ class ProgressDialog {
 class _ProgressWidget extends StatelessWidget {
   final Widget child;
 
-  _ProgressWidget({Key key, @required this.child})
-      : assert(child != null),
-        super(key: key);
+  _ProgressWidget({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -138,16 +139,16 @@ class _PopRoute extends PopupRoute {
   final Duration _duration = Duration(milliseconds: 300);
   Widget child;
 
-  _PopRoute({@required this.child});
+  _PopRoute({required this.child});
 
   @override
-  Color get barrierColor => null;
+  Color? get barrierColor => null;
 
   @override
   bool get barrierDismissible => true;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   Widget buildPage(

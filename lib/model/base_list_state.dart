@@ -4,8 +4,8 @@ import 'package:flutter_base/model/base_list_view_model.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 mixin BaseListState<T extends StatefulWidget> on State<T> {
-  BaseListViewModel viewModel;
-  RefreshController refreshController;
+  late BaseListViewModel viewModel;
+  late RefreshController refreshController;
   int startPage = 0;
 
   @override

@@ -14,25 +14,25 @@ class GSYTabBarWidget extends StatefulWidget {
 
   final List<Widget> tabViews;
 
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
-  final Color indicatorColor;
+  final Color? indicatorColor;
 
-  final Widget title;
+  final Widget? title;
 
-  final Widget drawer;
+  final Widget? drawer;
 
-  final Widget floatingActionButton;
+  final Widget? floatingActionButton;
 
-  final TarWidgetControl tarWidgetControl;
+  final TarWidgetControl? tarWidgetControl;
 
-  final PageController pageControl;
+  final PageController? pageControl;
 
   GSYTabBarWidget({
-    Key key,
-    this.type,
-    this.tabItems,
-    this.tabViews,
+    Key? key,
+    required this.type,
+    required this.tabItems,
+    required this.tabViews,
     this.backgroundColor,
     this.indicatorColor,
     this.title,
@@ -63,17 +63,17 @@ class _GSYTabBarState extends State<GSYTabBarWidget>
 
   final List<Widget> _tabViews;
 
-  final Color _backgroundColor;
+  final Color? _backgroundColor;
 
-  final Color _indicatorColor;
+  final Color? _indicatorColor;
 
-  final Widget _title;
+  final Widget? _title;
 
-  final Widget _drawer;
+  final Widget? _drawer;
 
-  final Widget _floatingActionButton;
+  final Widget? _floatingActionButton;
 
-  final PageController _pageController;
+  final PageController? _pageController;
 
   _GSYTabBarState(
       this._type,
@@ -87,7 +87,7 @@ class _GSYTabBarState extends State<GSYTabBarWidget>
       this._pageController)
       : super();
 
-  TabController _tabController;
+  late TabController _tabController;
 
   @override
   void initState() {

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 class BannerBean {
   String imageUrl;
   String title;
-  String action;
-  String extend;
+  String? action;
+  String? extend;
 
   BannerBean({
-    this.imageUrl,
-    this.title,
+    required this.imageUrl,
+    required this.title,
     this.action,
     this.extend,
   });
@@ -24,16 +24,16 @@ class BannerBean {
 class CustomBanner extends StatefulWidget {
   final List<BannerBean> banners;
   final double height;
-  final ValueChanged<int> onTap;
+  final ValueChanged<int>? onTap;
   final Curve curve;
-  final Widget indicator;
-  final WidgetBuilder itemBuilder;
+  final Widget? indicator;
+  final Widget Function(BuildContext context, int index)? itemBuilder;
   final int switchDuration;
   final int animationDuration;
 
   CustomBanner({
-    Key key,
-    this.banners,
+    Key? key,
+    required this.banners,
     this.height = 200,
     this.onTap,
     this.curve = Curves.linearToEaseOut,
@@ -41,18 +41,16 @@ class CustomBanner extends StatefulWidget {
     this.itemBuilder,
     this.switchDuration = 3000,
     this.animationDuration = 1000,
-  }) : super(key: key) {
-    assert(banners != null);
-  }
+  }) : super(key: key);
 
   @override
   _CustomBannerState createState() => _CustomBannerState();
 }
 
 class _CustomBannerState extends State<CustomBanner> {
-  PageController _pageController;
+  late PageController _pageController;
   int _index = 0;
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -89,7 +87,7 @@ class _CustomBannerState extends State<CustomBanner> {
     var length = widget.banners.length;
 
     return widget.indicator != null
-        ? widget.indicator
+        ? widget.indicator!
         : Positioned(
             bottom: 10,
             child: Row(
@@ -147,7 +145,7 @@ class _CustomBannerState extends State<CustomBanner> {
           });
         },
         itemBuilder: widget.itemBuilder != null
-            ? widget.itemBuilder
+            ? widget.itemBuilder!
             : (context, index) {
                 return GestureDetector(
                   onPanDown: (details) {
@@ -156,7 +154,7 @@ class _CustomBannerState extends State<CustomBanner> {
                   },
                   onTap: () {
                     if (null != widget.onTap) {
-                      widget.onTap(index);
+                      widget.onTap!(index);
                     }
                   },
                   child: Image.network(
@@ -171,7 +169,7 @@ class _CustomBannerState extends State<CustomBanner> {
 
   cancelTimer() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
       _timer = null;
     }
   }
