@@ -35,9 +35,12 @@ abstract class BaseListViewModel<T> {
     page = pageNumber;
   }
 
-  void setData(List<T> list) {
-    data = list;
-    data ??= [];
+  void setData(List<T>? list) {
+    if (list == null) {
+      data = [];
+    } else {
+      data = list;
+    }
   }
 
   int getCount() {

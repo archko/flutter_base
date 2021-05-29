@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
 
 class StateDemoApp extends StatefulWidget {
   const StateDemoApp({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -48,7 +48,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
@@ -60,7 +60,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
                 },
                 child: Text("HomeTabsPage"),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(
@@ -72,7 +72,7 @@ class _StateDemoAppState extends State<StateDemoApp> {
                 },
                 child: Text("TestApp"),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<void>(

@@ -83,7 +83,7 @@ class TabsWidgetState extends State<TabsWidget>
 
   final Widget? _title;
   final List<Widget> _tabViews;
-  final List<TabItem> tabItems;
+  final List<TabItem>? tabItems;
   final List<Widget>? tabWidgets;
   bool isScrollable;
 
@@ -165,7 +165,7 @@ class TabsWidgetState extends State<TabsWidget>
   Widget build(BuildContext context) {
     List<Widget> tabs = tabWidgets != null
         ? tabWidgets!
-        : tabItems.map<Tab>((TabItem page) {
+        : tabItems!.map<Tab>((TabItem page) {
             assert(tabStyle != null);
             switch (tabStyle) {
               case TabsStyle.iconsAndText:
@@ -242,6 +242,8 @@ class TabsWidgetState extends State<TabsWidget>
         ),
       );
     }
-    return Scaffold();
+    return Scaffold(
+      body: tabBarView,
+    );
   }
 }

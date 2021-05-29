@@ -3,14 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class BannerBean {
-  String imageUrl;
-  String title;
+  String? imageUrl;
+  String? title;
   String? action;
   String? extend;
 
   BannerBean({
-    required this.imageUrl,
-    required this.title,
+    this.imageUrl,
+    this.title,
     this.action,
     this.extend,
   });
@@ -158,7 +158,7 @@ class _CustomBannerState extends State<CustomBanner> {
                     }
                   },
                   child: Image.network(
-                    widget.banners[index % length].imageUrl,
+                    widget.banners[index % length].imageUrl!,
                     fit: BoxFit.cover,
                   ),
                 );

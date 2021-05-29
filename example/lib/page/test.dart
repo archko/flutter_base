@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_base/widget/dialog/dialog_item.dart';
 import 'package:flutter_base/widget/appbar/title_bar.dart';
+import 'package:flutter_base/widget/dialog/dialog_item.dart';
 
 class TestApp extends StatefulWidget {
   const TestApp({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -31,19 +31,19 @@ class _TestAppState extends State<TestApp> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   ProgressDialog.showProgress(context);
                 },
                 child: Text("progress dialog"),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   showDialogItems(context);
                 },
                 child: Text("dialog item"),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () {
                   modeBottomDialog(context);
                 },
@@ -122,7 +122,10 @@ class _TestAppState extends State<TestApp> {
                     print("分享到 微博");
                   },
                 ),
-                SizedBox(width: 0,height: 40,),
+                SizedBox(
+                  width: 0,
+                  height: 40,
+                ),
               ],
             ),
           );

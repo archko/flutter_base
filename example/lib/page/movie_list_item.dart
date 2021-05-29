@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_base_example/entity/animate.dart';
 
 class MovieListItem extends StatelessWidget {
-  MovieListItem({this.bean, this.onPressed}) : super();
+  MovieListItem({required this.bean, this.onPressed}) : super();
   final Animate bean;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   void detail(String bean) {}
 

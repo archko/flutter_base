@@ -6,7 +6,7 @@ import 'package:flutter_base_example/page/movie_list_item.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieListPage extends StatefulWidget {
-  MovieListPage({Key key}) : super(key: key);
+  MovieListPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -23,8 +23,8 @@ class _MovieListPageState extends State<MovieListPage>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
-  RefreshController refreshController;
-  MovieProvider _movieProvider;
+  late RefreshController refreshController;
+  late MovieProvider _movieProvider;
 
   @override
   void initState() {

@@ -19,27 +19,25 @@ class HttpClient {
   late Dio dio;
 
   HttpClient._init() {
-    if (dio == null) {
-      dio = new Dio();
-      //dio.interceptors.add(HttpLogInterceptor());
+    dio = new Dio();
+    //dio.interceptors.add(HttpLogInterceptor());
 
-      (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-          (client) {
-        // config the http client
-        //client.findProxy = (uri) {
-        //  //proxy all request to localhost:8888
-        //  return "192.168.1.1:8888";
-        //};
-        client.badCertificateCallback =
-            (X509Certificate cert, String host, int port) {
-          Logger.d("host:$host port:$port");
-          return true;
-        };
-        // you can also create a new HttpClient to dio
-        // return new HttpClient();
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      // config the http client
+      //client.findProxy = (uri) {
+      //  //proxy all request to localhost:8888
+      //  return "192.168.1.1:8888";
+      //};
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) {
+        Logger.d("host:$host port:$port");
+        return true;
       };
-      dio.transformer = HttpTransformer();
-    }
+      // you can also create a new HttpClient to dio
+      // return new HttpClient();
+    };
+    dio.transformer = HttpTransformer();
   }
 
   addInterceptor(Interceptor interceptor) {
@@ -57,9 +55,9 @@ class HttpClient {
     return _instance;
   }
 
-  Options processHeaderAndOption(Options oldOptions,
+  Options processHeaderAndOption(Options? oldOptions,
       Map<String, dynamic> header, ResponseType responseType) {
-    Options options = oldOptions;
+    Options? options = oldOptions;
 
     ///Options
     if (null == options) {
@@ -76,8 +74,7 @@ class HttpClient {
     return options;
   }
 
-  Future get(url,
-      {params, header, required Options option, responseType}) async {
+  Future get(url, {params, header, Options? option, responseType}) async {
     Options options = processHeaderAndOption(option, header, responseType);
     options.method = GET;
 

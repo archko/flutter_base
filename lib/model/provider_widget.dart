@@ -3,14 +3,14 @@ import 'package:provider/provider.dart';
 
 class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   final T model;
-  final Widget child;
+  final Widget? child;
   final Widget Function(BuildContext context, T model, Widget? child)? builder;
   final Function(T)? onModelInitial;
 
   ProviderWidget({
     Key? key,
     required this.model,
-    required this.child,
+    this.child,
     this.builder,
     this.onModelInitial,
   });
@@ -54,7 +54,7 @@ class ProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
       BuildContext context, A model1, B model2, Widget? child)? builder;
   final A model1;
   final B model2;
-  final Widget child;
+  final Widget? child;
   final Function(A, B)? onModelInitial;
 
   ProviderWidget2({
@@ -62,7 +62,7 @@ class ProviderWidget2<A extends ChangeNotifier, B extends ChangeNotifier>
     this.builder,
     required this.model1,
     required this.model2,
-    required this.child,
+    this.child,
     this.onModelInitial,
   }) : super(key: key);
 
@@ -116,7 +116,7 @@ class ProviderWidget3<A extends ChangeNotifier, B extends ChangeNotifier,
   final A model1;
   final B model2;
   final C model3;
-  final Widget child;
+  final Widget? child;
   final Function(A, B, C)? onModelInitial;
 
   ProviderWidget3({
@@ -125,7 +125,7 @@ class ProviderWidget3<A extends ChangeNotifier, B extends ChangeNotifier,
     required this.model1,
     required this.model2,
     required this.model3,
-    required this.child,
+    this.child,
     this.onModelInitial,
   }) : super(key: key);
 
@@ -191,7 +191,7 @@ class ProviderWidget4<A extends ChangeNotifier, B extends ChangeNotifier,
   final B model2;
   final C model3;
   final D model4;
-  final Widget child;
+  final Widget? child;
   final Function(A, B, C, D)? onModelInitial;
 
   ProviderWidget4({
@@ -201,7 +201,7 @@ class ProviderWidget4<A extends ChangeNotifier, B extends ChangeNotifier,
     required this.model2,
     required this.model3,
     required this.model4,
-    required this.child,
+    this.child,
     this.onModelInitial,
   }) : super(key: key);
 

@@ -8,7 +8,7 @@ import 'package:flutter_base_example/page/movie_list_page.dart';
 import 'package:provider/provider.dart';
 
 class HomeTabsPage extends StatefulWidget {
-  HomeTabsPage({Key key}) : super(key: key);
+  HomeTabsPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -28,8 +28,8 @@ class _HomeTabsPageState extends State<HomeTabsPage>
     MovieListPage(),
   ];
   List<TabItem> _tabItems = [];
-  TabController _tabController;
-  MovieProvider _movieProvider;
+  late TabController _tabController;
+  late MovieProvider _movieProvider;
   ShapeDecoration _decoration = ShapeDecoration(
     shape: StadiumBorder(
           side: BorderSide(
@@ -54,7 +54,7 @@ class _HomeTabsPageState extends State<HomeTabsPage>
     _tabController = TabController(vsync: this, length: _tabItems.length);
     this._tabController.addListener(() {
       /// 这里需要去重,否则会调用两次._tabController.animation.value才是最后的位置
-      if (_tabController.animation.value == _tabController.index) {
+      if (_tabController.animation!.value == _tabController.index) {
         print(
             "index:${_tabController.index},preIndex:${_tabController.previousIndex},length:${_tabController.length}");
       }
@@ -118,7 +118,7 @@ class _HomeTabsPageState extends State<HomeTabsPage>
                   return _bar(context);
                 },
                 selector: (_, MovieProvider homeProvider) {
-                  return homeProvider.getBannerBeans();
+                  return homeProvider.getBannerBeans()!;
                 },
                 shouldRebuild: (List<BannerBean> prev, List<BannerBean> now) {
                   return prev == null || prev != now;
@@ -157,7 +157,7 @@ class _HomeTabsPageState extends State<HomeTabsPage>
         child: CircularProgressIndicator(),
       );
     } else {
-      widget = CustomBanner(banners: _movieProvider.getBannerBeans());
+      widget = CustomBanner(banners: _movieProvider.getBannerBeans()!);
     }
     return SliverAppBar(
       centerTitle: true,

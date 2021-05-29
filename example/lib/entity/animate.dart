@@ -31,16 +31,16 @@ class Animate {
     );
   }
 
-  final String additional;
-  final String ename;
-  final String jumplink;
-  final String jumpquery;
-  final String kg_pic_url;
-  final String name;
-  final String pic_6n_161;
-  final String searchp;
-  final String selpic;
-  final String sort;
-  final String statctl;
-  final String statlst;
+  final String? additional;
+  final String? ename;
+  final String? jumplink;
+  final String? jumpquery;
+  final String? kg_pic_url;
+  final String? name;
+  final String? pic_6n_161;
+  final String? searchp;
+  final String? selpic;
+  final String? sort;
+  final String? statctl;
+  final String? statlst;
 }

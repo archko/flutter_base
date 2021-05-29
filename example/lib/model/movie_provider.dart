@@ -10,8 +10,8 @@ import 'package:flutter_base_example/entity/animate.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
-  RefreshController refreshController;
-  List<BannerBean> _bannerBeans;
+  RefreshController? refreshController;
+  List<BannerBean>? _bannerBeans;
 
   MovieProvider({this.refreshController}) {
     page = 0;
@@ -23,8 +23,8 @@ class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
   }
 
   @override
-  Future loadData({int pn}) async {
-    List<Animate> list = await loadMovie(pn: 0);
+  Future loadData({int? pn}) async {
+    List<Animate>? list = await loadMovie(pn: 0);
     print("loadData:$list");
     setData(list);
     if (list == null || list.length == 0) {
@@ -34,7 +34,7 @@ class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
       return;
     }
     loadingStatus = LoadingStatus.successed;
-    if (list != null && list.length > 0) {
+    if (list.length > 0) {
       refreshController?.refreshCompleted();
     } else {
       refreshController?.loadNoData();
@@ -43,8 +43,8 @@ class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
     notifyListeners();
   }
 
-  Future loadMore({int pn}) async {
-    List<Animate> list = await loadMovie(pn: page + 1);
+  Future loadMore({int? pn}) async {
+    List<Animate>? list = await loadMovie(pn: page + 1);
     print("loadMore:$list");
     if (list != null && list.length > 0) {
       addData(list);
@@ -63,9 +63,9 @@ class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Animate>> loadMovie({int pn}) async {
+  Future<List<Animate>?> loadMovie({int? pn}) async {
     pn ??= 0;
-    List<Animate> list;
+    List<Animate>? list;
     String url =
         'https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?resource_id=28286&from_mid=1&&format=json&ie=utf-8&oe=utf-8&query=电影&sort_key=16&sort_type=1&stat0=&stat1=&stat2=&stat3=&pn=$pn&rn=6&cb=cbs';
     try {
@@ -105,7 +105,7 @@ class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
     notifyListeners();
   }
 
-  List<BannerBean> getBannerBeans() {
+  List<BannerBean>? getBannerBeans() {
     if (_bannerBeans == null) {
       return [];
     }
