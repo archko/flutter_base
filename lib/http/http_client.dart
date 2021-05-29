@@ -15,7 +15,7 @@ class HttpClient {
   static const String DELETE = 'delete';
 
   static HttpClient get instance => _getInstance();
-  static late HttpClient _instance;
+  static HttpClient? _instance;
   late Dio dio;
 
   HttpClient._init() {
@@ -52,11 +52,11 @@ class HttpClient {
     if (_instance == null) {
       _instance = new HttpClient._init();
     }
-    return _instance;
+    return _instance!;
   }
 
   Options processHeaderAndOption(Options? oldOptions,
-      Map<String, dynamic> header, ResponseType responseType) {
+      Map<String, dynamic>? header, ResponseType? responseType) {
     Options? options = oldOptions;
 
     ///Options
