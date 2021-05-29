@@ -3,8 +3,7 @@ import 'package:flutter_base/log/logger.dart';
 
 class HttpLogInterceptor extends Interceptor {
   @override
-  Future<dynamic> onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     Logger.d("#------------------ Request Start -----------------#");
     StringBuffer sb = StringBuffer();
 
@@ -21,12 +20,11 @@ class HttpLogInterceptor extends Interceptor {
         ",onRequest:method:${options.method},responseType:${options.responseType}, ");
     sb.write("path:${options.path}");
     Logger.d(sb);
-    return options;
+    handler.next(options);
   }
 
   @override
-  Future onResponse(
-      Response response, ResponseInterceptorHandler handler) async {
+  onResponse(Response response, ResponseInterceptorHandler handler) async {
     if (response.requestOptions.responseType == ResponseType.plain) {
       var contentLength = (response.data as String).length;
       String bodySize = "$contentLength-byte";
@@ -46,12 +44,13 @@ class HttpLogInterceptor extends Interceptor {
       Logger.d("response:$response");
     }
     Logger.d("#---------------- Response End -----------------#");
-    return response;
+
+    handler.next(response);
   }
 
   @override
-  Future onError(DioError err, ErrorInterceptorHandler handler) async {
+  onError(DioError err, ErrorInterceptorHandler handler) async {
     Logger.d("onError:$err");
-    return err;
+    handler.next(err);
   }
 }

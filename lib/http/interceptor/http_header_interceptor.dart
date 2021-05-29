@@ -12,20 +12,19 @@ class HttpHeaderInterceptor extends Interceptor {
   };
 
   @override
-  Future onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     options.headers.addAll(httpHeaders);
-    return options;
+    handler.next(options);
   }
 
-  @override
-  Future onResponse(
+/*@override
+  onResponse(
       Response response, ResponseInterceptorHandler handler) async {
-    return response;
+    handler.next(response);
   }
 
   @override
-  Future onError(DioError err, ErrorInterceptorHandler handler) async {
-    return err;
-  }
+  onError(DioError err, ErrorInterceptorHandler handler) async {
+    handler.next(err);
+  }*/
 }
