@@ -4,7 +4,7 @@ abstract class BaseListViewModel<T> {
   bool hasMore = true;
   LoadingStatus loadingStatus = LoadingStatus.idle;
   int page = 0;
-  List<T> data = new List.empty();
+  List<T> data = new List.empty(growable: true);
 
   BaseListViewModel({this.page = 0});
 

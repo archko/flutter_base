@@ -17,10 +17,10 @@ class TabBarPageWidget extends StatefulWidget {
 }
 
 class _TabBarPageWidgetState extends State<TabBarPageWidget> {
-  final PageController pageControl = new PageController();
+  final PageController pageControl = PageController();
 
   _renderTab() {
-    List<Widget> list = new List.empty();
+    List<Widget> list = List.empty(growable: true);
     for (int i = 0; i < widget.tabViews.length; i++) {
       list.add(FlatButton(
           onPressed: () {
@@ -44,12 +44,12 @@ class _TabBarPageWidgetState extends State<TabBarPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return new GSYTabBarWidget(
+    return GSYTabBarWidget(
         type: GSYTabBarWidget.TOP_TAB,
         tabItems: _renderTab(),
         tabViews: _renderPage(),
         pageControl: pageControl,
         indicatorColor: Colors.white,
-        title: new Text(widget.title == null ? "" : widget.title!));
+        title: Text(widget.title == null ? "" : widget.title!));
   }
 }
