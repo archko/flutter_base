@@ -71,7 +71,7 @@ class MovieProvider extends BaseListViewModel<Animate> with ChangeNotifier {
     try {
       HttpResponse httpResponse = await HttpClient.instance.get(url);
       String result =
-          httpResponse.data.replaceAll('cbs(', '').replaceAll(')', '');
+          httpResponse.data?.replaceAll('cbs(', '').replaceAll(')', '');
       //print("result:$result");
       list = await compute(decodeMovieListResult, result);
       //list = await loadWithBalancer<List<Animate>, String>(

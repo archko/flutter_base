@@ -1,7 +1,7 @@
-class HttpResponse {
+class HttpResponse<T> {
   int code;
   String msg;
-  var data;
+  T? data;
   bool isSuccess;
 
   HttpResponse(this.data, this.msg, this.code, {this.isSuccess = false});
