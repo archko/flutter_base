@@ -9,8 +9,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: 1.0.3
-  cached_network_image: 3.0.0
+  cupertino_icons: 1.0.4
+  cached_network_image: 3.1.0+1
 
   flutter_base:
     path: ../
