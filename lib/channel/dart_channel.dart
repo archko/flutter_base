@@ -34,8 +34,6 @@ class DartChannel {
   }
 
   VoidCallback addMethodHandler(MethodHandler handler) {
-    assert(handler != null);
-
     _methodHandlers.add(handler);
 
     return () {

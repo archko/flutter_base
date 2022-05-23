@@ -27,7 +27,7 @@ class ProviderWidgetState<T extends ChangeNotifier>
   void initState() {
     super.initState();
     this.model = widget.model;
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
         widget.onModelInitial!(this.model);
       }
@@ -79,7 +79,7 @@ class _ProviderWidgetState2<A extends ChangeNotifier, B extends ChangeNotifier>
     model1 = widget.model1;
     model2 = widget.model2;
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
         widget.onModelInitial!(model1, model2);
       }
@@ -145,7 +145,7 @@ class _ProviderWidgetState3<A extends ChangeNotifier, B extends ChangeNotifier,
     model2 = widget.model2;
     model3 = widget.model3;
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
         widget.onModelInitial!(model1, model2, model3);
       }
@@ -226,7 +226,7 @@ class _ProviderWidgetState4<
     model3 = widget.model3;
     model4 = widget.model4;
 
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.onModelInitial != null) {
         widget.onModelInitial!(model1, model2, model3, model4);
       }
