@@ -22,7 +22,7 @@ class _TabBarPageWidgetState extends State<TabBarPageWidget> {
   _renderTab() {
     List<Widget> list = List.empty(growable: true);
     for (int i = 0; i < widget.tabViews.length; i++) {
-      list.add(FlatButton(
+      list.add(TextButton(
           onPressed: () {
             pageControl.jumpTo(MediaQuery.of(context).size.width * i);
             if (widget.tabClick != null) {

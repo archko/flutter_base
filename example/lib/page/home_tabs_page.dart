@@ -173,8 +173,8 @@ class _HomeTabsPageState extends State<HomeTabsPage>
       title: Text("a"),
       leading: Icon(Icons.arrow_back),
       iconTheme: IconThemeData(color: Color(0xFFD8D8D8)),
-      textTheme:
-          TextTheme(title: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF))),
+      textTheme: TextTheme(
+          subtitle1: TextStyle(fontSize: 17.0, color: Color(0xFFFFFFFF))),
       actions: <Widget>[
         GestureDetector(
           onTap: () {},

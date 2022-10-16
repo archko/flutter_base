@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_base/utils/string_utils.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
 class Browser extends StatelessWidget {
   static open(BuildContext context, String url,
@@ -36,7 +35,18 @@ class Browser extends StatelessWidget {
       //  initialUrl: url,
       //  javascriptMode: JavascriptMode.unrestricted,
       //),
-      body: WebviewScaffold(
+      body: WebViewPlus(
+        javascriptMode: JavascriptMode.unrestricted,
+        onWebViewCreated: (controller) {
+          //controller.loadString(r"""
+          // <html lang="en">
+          //  <body>Waiting.....</body>
+          // </html>
+          //""");
+          controller.loadUrl(url);
+        },
+      ),
+      /*WebviewScaffold(
         url: url,
         withZoom: true,
         withLocalStorage: true,
@@ -47,7 +57,7 @@ class Browser extends StatelessWidget {
             child: Text(waitingTxt != null ? waitingTxt! : 'Waiting.....'),
           ),
         ),
-      ),
+      ),*/
     );
   }
 }
