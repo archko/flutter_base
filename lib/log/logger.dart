@@ -20,9 +20,9 @@ class Logger {
   }
 
   static void printLog(String tag, String stag, Object object) {
-    if (!StringUtils.isEmpty(tag)) {
-      print(tag);
-    }
+    //if (!StringUtils.isEmpty(tag)) {
+    //  print(tag);
+    //}
 
     if (!debugable) {
       return;

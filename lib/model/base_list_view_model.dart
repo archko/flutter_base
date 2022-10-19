@@ -6,7 +6,7 @@ abstract class BaseListViewModel<T> {
   int page = 0;
   List<T> data = new List.empty(growable: true);
 
-  BaseListViewModel({this.page = 0});
+  //BaseListViewModel({this.page = 0});
 
   bool get value => hasMore;
 
