@@ -12,7 +12,7 @@ class CacheUtils {
   /// 从缓存文件读取文件内容
   static Future<NewsCache?> readCacheFromCache(String cacheKey) async {
     String? cacheString = MMKV.defaultMMKV().decodeString(cacheKey);
-    Logger.d("cacheString:$cacheString");
+    Logger.d("read cacheString:$cacheString");
     if (!StringUtils.isEmpty(cacheString)) {
       NewsCache cache = await run<NewsCache, String>(decodeCache, cacheString!);
       return cache;
@@ -34,7 +34,7 @@ class CacheUtils {
       filename: filename,
       url: url,
     );
-    Logger.d("now:$now, filename:$filename,cache:$cache");
+    Logger.d("write now:$now, filename:$filename,cache:$cache");
 
     var json = JsonUtils.toJson(cache);
     MMKV.defaultMMKV().encodeString(cacheKey, json);
