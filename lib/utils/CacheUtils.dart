@@ -14,7 +14,7 @@ class CacheUtils {
     String? cacheString = MMKV.defaultMMKV().decodeString(cacheKey);
     Logger.d("cacheString:$cacheString");
     if (!StringUtils.isEmpty(cacheString)) {
-      NewsCache cache = await run<Token, String>(decodeCache, cacheString!);
+      NewsCache cache = await run<NewsCache, String>(decodeCache, cacheString!);
       return cache;
     }
 
